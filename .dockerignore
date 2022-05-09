@@ -1,0 +1,7 @@
+renv/library/
+renv/local/
+renv/lock/
+renv/python/
+renv/staging/
+
+test
