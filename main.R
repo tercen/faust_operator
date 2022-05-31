@@ -1,28 +1,74 @@
-library(tercenApi)
 library(tercen)
+library(tercenApi)
 library(dplyr)
-library(progressr)
-library("future.apply")
+library(faust)
+library(tim)
 
-# options("tercen.serviceUri"="http://172.28.0.1:5400/api/v1/")
-# # # http://127.0.0.1:5400/test-team/w/073510448c675ef923a0b55ca20ba1c0/ds/9fb0dd32-20d1-4daa-8701-e5766bfb425c
-# options("tercen.workflowId"= "073510448c675ef923a0b55ca20ba1c0")
-# options("tercen.stepId"= "9fb0dd32-20d1-4daa-8701-e5766bfb425c")
+ctx <- tercenCtx()
 
-ctx = tercenCtx()
+if("filename" %in% names(ctx$cnames)) {
+  mat <- ctx %>% as.matrix() %>% t()
+  colnames(mat) <- ctx$rselect()[[1]]
+  df <- cbind(ctx$cselect("filename"), mat)
+} else {
+  mat <- ctx %>% as.matrix() %>% t()
+  colnames(mat) <- ctx$rselect()[[1]]
+  df <- as.data.frame(mat)
+  df$filename <- "sample"
+}
 
-nCpus = availableCores() 
-nCpusRequested = 4
-ctx$requestResources(nCpus=nCpusRequested, ram=500000000, ram_per_cpu=500000000)
-nCpusReceived = availableCores() 
+df_list <- split(df, df$filename)
+ff_list <- lapply(df_list, function(x) {
+  m <- x %>% select(-filename) %>% as.matrix
+  tim::matrix_to_flowFrame(m)
+})
 
-msg = paste0("nCpus=" , nCpus , " nCpusRequested=", nCpusRequested, " nCpusReceived=", nCpusReceived)
+fs <- as(ff_list, "flowSet")
+gs <- flowWorkspace::GatingSet(fs)
 
-ctx$log(msg)
+projPath <- file.path(tempdir(), "FAUST")
+dir.create(projPath, recursive = TRUE)
 
-ctx  %>%
-  select(.y, .ci, .ri) %>%
-  group_by(.ci, .ri) %>%
-  summarise(mean = mean(.y)) %>%
+faust::faust(
+  gatingSet           = gs,
+  startingCellPop     = "root",
+  projectPath         = projPath,
+  annotationsApproved = TRUE,
+  threadNum           = 4,
+  selectionQuantile   = 0.5,
+  depthScoreThreshold = 0.01,
+  drawAnnotationHistograms = FALSE,
+  plottingDevice = "png"
+)
+
+snVec <- list.files(file.path(projPath, "faustData", "sampleData"))
+
+annoEmbed <- faust::makeAnnotationEmbedding(	      
+  projectPath=projPath,
+  sampleNameVec=snVec
+)
+
+df_out <- annoEmbed %>% select(umapX, umapY, faustLabels) %>%
+  mutate(.ci = seq_len(nrow(.)) - 1)
+
+# get plots and return pdf
+
+diagnostic_plots <- list.files(path = projPath, pattern = ".png", recursive = TRUE, full.names = TRUE)
+diagnostic_plots <- diagnostic_plots[grep("hist_", diagnostic_plots)]
+
+df_out_png <- tim::png_to_df(diagnostic_plots)
+
+# output results
+join_res = df_out %>%
   ctx$addNamespace() %>%
-  ctx$save()
+  as_relation() %>%
+  left_join_relation(ctx$crelation, ".ci", ctx$crelation$rids) %>%
+  as_join_operator(ctx$cnames, ctx$cnames)
+
+join_png = df_out_png %>% 
+  ctx$addNamespace() %>%
+  as_relation() %>%
+  as_join_operator(list(), list())
+
+list(join_res, join_png) %>%
+  save_relation(ctx)

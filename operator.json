@@ -1,9 +1,9 @@
 {
-"name": "simple docker operator",
-"description": "simple docker operator",
-"tags": [""],
-"authors": ["tercen"],
-"urls": ["https://github.com/tercen/simple_docker_operator"],
-"container":"tercen/simple_docker_operator:latest",
-"properties": [ ]
+  "name": "FAUST",
+  "description": "FAUST: Full annotation using shape-constrained trees.",
+  "tags": ["flow cytometry", "clustering"],
+  "authors": ["tercen"],
+  "urls": ["https://github.com/tercen/faust_operator"],
+  "container":"tercen/faust_operator:latest",
+  "properties": [ ]
 }
