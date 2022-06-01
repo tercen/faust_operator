@@ -49,6 +49,8 @@ annoEmbed <- faust::makeAnnotationEmbedding(
 )
 
 df_out <- annoEmbed %>% select(umapX, umapY, faustLabels) %>%
+  mutate(umapX = as.double(umapX)) %>%
+  mutate(umapY = as.double(umapY)) %>%
   mutate(.ci = seq_len(nrow(.)) - 1)
 
 # get plots and return pdf

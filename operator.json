@@ -4,6 +4,6 @@
   "tags": ["flow cytometry", "clustering"],
   "authors": ["tercen"],
   "urls": ["https://github.com/tercen/faust_operator"],
-  "container":"tercen/faust_operator:0.0.3",
+  "container":"tercen/faust_operator:0.0.4",
   "properties": [ ]
 }
