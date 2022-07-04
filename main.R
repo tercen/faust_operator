@@ -27,6 +27,7 @@ fs <- as(ff_list, "flowSet")
 gs <- flowWorkspace::GatingSet(fs)
 
 projPath <- file.path(tempdir(), "FAUST")
+on.exit(unlink(projPath, recursive = TRUE))
 dir.create(projPath, recursive = TRUE)
 
 faust::faust(
@@ -37,6 +38,8 @@ faust::faust(
   threadNum           = 4,
   selectionQuantile   = 0.5,
   depthScoreThreshold = 0.01,
+  densitySubSampleThreshold = 1e6,
+  densitySubSampleSize = 1e6,
   drawAnnotationHistograms = FALSE,
   plottingDevice = "png"
 )
@@ -48,27 +51,31 @@ annoEmbed <- faust::makeAnnotationEmbedding(
   sampleNameVec=snVec
 )
 
-df_out <- annoEmbed %>% select(umapX, umapY, faustLabels) %>%
-  mutate(.ci = seq_len(nrow(.)) - 1)
+df_out <- annoEmbed %>%
+  select(umapX, umapY, faustLabels, contains("annotation")) %>%
+  replace(. == "-", 0) %>%
+  replace(. == "+", 1) %>%
+  mutate_at(vars(contains("annotation")), as.numeric) %>%
+  mutate(.i = seq_len(nrow(.)) - 1L)
 
-# get plots and return pdf
-
+# get plots and return table
 diagnostic_plots <- list.files(path = projPath, pattern = ".png", recursive = TRUE, full.names = TRUE)
 diagnostic_plots <- diagnostic_plots[grep("hist_", diagnostic_plots)]
 
 df_out_png <- tim::png_to_df(diagnostic_plots)
 
 # output results
+join_png = df_out_png %>% 
+  ctx$addNamespace() %>%
+  as_relation() #%>%
+  # as_join_operator(list(), list())
+
 join_res = df_out %>%
   ctx$addNamespace() %>%
   as_relation() %>%
-  left_join_relation(ctx$crelation, ".ci", ctx$crelation$rids) %>%
+  left_join_relation(ctx$crelation, ".i", ctx$crelation$rids) %>%
+  left_join_relation(join_png, list(), list()) %>%
   as_join_operator(ctx$cnames, ctx$cnames)
 
-join_png = df_out_png %>% 
-  ctx$addNamespace() %>%
-  as_relation() %>%
-  as_join_operator(list(), list())
-
-list(join_res, join_png) %>%
+join_res %>%
   save_relation(ctx)
