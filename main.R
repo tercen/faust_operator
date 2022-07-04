@@ -53,6 +53,8 @@ annoEmbed <- faust::makeAnnotationEmbedding(
 
 df_out <- annoEmbed %>%
   select(umapX, umapY, faustLabels, contains("annotation")) %>%
+  mutate(umapX = as.double(umapX)) %>%
+  mutate(umapY = as.double(umapY)) %>%
   replace(. == "-", 0) %>%
   replace(. == "+", 1) %>%
   mutate_at(vars(contains("annotation")), as.numeric) %>%

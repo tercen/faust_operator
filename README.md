@@ -1,36 +1,28 @@
+# FAUST operator
 
-# build
+##### Description
 
-```shell
-VERSION=0.14.0
-docker build -t tercen/simple_docker_operator:$VERSION .
-docker push tercen/simple_docker_operator:$VERSION
-# update operator.json file with correct docker image version
-{
-        echo '{'
-        echo '"name": "simple docker operator",'
-        echo '"description": "simple docker operator",'
-        echo '"tags": [""],'
-        echo '"authors": ["tercen"],'
-        echo '"urls": ["https://github.com/tercen/simple_docker_operator"],'
-        echo '"container":"tercen/simple_docker_operator:'$VERSION'",'  
-        echo '"properties": [ ]'
-        echo '}'
-} > operator.json
+FAUST: Full annotation using shape-constrained trees.
 
-git add -A && git commit -m "$VERSION" && git tag $VERSION && git push && git push --tags
+##### Usage
 
-```
+Input projection|.
+---|---
+`row`   | represents the variables (e.g. channels, markers)
+`col`   | represents the clusters (e.g. cells) 
+`y-axis`| is the value of measurement signal of the channel/marker
 
-# inspect
+Output relations|.
+---|---
+`umapX`| numeric, coordinate on first UMAP dimension
+`umapY`| numeric, coordinate on second UMAP dimension
+`faustLabels`| factor, FAUST annotation
+`Computed Table 3`| Diagnostic histograms.
 
-```shell
-docker run --rm --entrypoint=bash tercen/simple_docker_operator:$VERSION -c "R --version"
-docker run -it --rm --entrypoint=bash tercen/simple_docker_operator:$VERSION
-```
- 
-# push
+##### Details
 
-```shell
-docker push tercen/simple_docker_operator:$VERSION
-```
+The operator is a wrapper for the `faust` function of the `faust` [R package](https://github.com/RGLab/FAUST/).
+
+##### See Also
+
+[flowsom_operator](https://github.com/tercen/flowsom_operator)
