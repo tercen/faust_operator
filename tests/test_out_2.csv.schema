@@ -23,6 +23,11 @@
     },
     {
       "kind": "ColumnSchema",
+      "name": "ds00.var3_faust_annotation",
+      "type": "double"
+    },
+    {
+      "kind": "ColumnSchema",
       "name": "ds00.var5_faust_annotation",
       "type": "double"
     },
