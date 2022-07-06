@@ -1,0 +1,40 @@
+{
+  "kind": "TableSchema",
+  "columns": [
+    {
+      "kind": "ColumnSchema",
+      "name": "ds00.umapX",
+      "type": "double"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": "ds00.umapY",
+      "type": "double"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": "ds00.faustLabels",
+      "type": "string"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": "ds00.var2_faust_annotation",
+      "type": "double"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": "ds00.var5_faust_annotation",
+      "type": "double"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": "ds00.var1_faust_annotation",
+      "type": "double"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": ".i",
+      "type": "int32"
+    }
+  ]
+}

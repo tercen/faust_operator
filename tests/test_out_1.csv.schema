@@ -1,0 +1,25 @@
+{
+  "kind": "TableSchema",
+  "columns": [
+    {
+      "kind": "ColumnSchema",
+      "name": "ds00.filename",
+      "type": "string"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": "ds00.mimetype",
+      "type": "string"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": "ds00.checksum",
+      "type": "string"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": ".content",
+      "type": "string"
+    }
+  ]
+}
