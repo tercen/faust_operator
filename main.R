@@ -1,8 +1,10 @@
-library(tercen)
-library(tercenApi)
-library(dplyr)
-library(faust)
-library(tim)
+suppressPackageStartupMessages({
+  library(tercen)
+  library(tercenApi)
+  library(dplyr)
+  library(faust)
+  library(tim)
+})
 
 ctx <- tercenCtx()
 
@@ -23,7 +25,7 @@ if("filename" %in% names(ctx$cnames)) {
 
 df_list <- split(df, df$filename)
 ff_list <- lapply(df_list, function(x) {
-  m <- x %>% select(-filename) %>% as.matrix
+  m <- x %>% dplyr::select(-filename) %>% as.matrix
   tim::matrix_to_flowFrame(m)
 })
 
@@ -57,19 +59,23 @@ annoEmbed <- faust::makeAnnotationEmbedding(
 )
 
 df_out <- annoEmbed %>%
-  select(umapX, umapY, faustLabels, contains("annotation")) %>%
+  dplyr::select(umapX, umapY, faustLabels, contains("annotation")) %>%
   mutate(umapX = as.double(umapX)) %>%
   mutate(umapY = as.double(umapY)) %>%
   replace(. == "-", 0) %>%
   replace(. == "+", 1) %>%
   mutate_at(vars(contains("annotation")), as.numeric) %>%
-  mutate(.i = seq_len(nrow(.)) - 1L)
+  mutate(.i = seq_len(nrow(.)) - 1L) %>%
+  rename(umap_1 = umapX, umap_2 = umapY, label = faustLabels)
+
+colnames(df_out) <- gsub("_faust_annotation", "_gate", colnames(df_out))
 
 # get plots and return table
 diagnostic_plots <- list.files(path = projPath, pattern = ".png", recursive = TRUE, full.names = TRUE)
 diagnostic_plots <- diagnostic_plots[grep("hist_", diagnostic_plots)]
 
 df_out_png <- tim::png_to_df(diagnostic_plots)
+# df_out_png <- do.call(rbind, lapply(diagnostic_plots, tim::plot_file_to_df))
 
 # output results
 join_png = df_out_png %>% 

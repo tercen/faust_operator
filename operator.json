@@ -1,10 +1,10 @@
 {
   "name": "FAUST",
   "description": "FAUST: Full annotation using shape-constrained trees.",
-  "tags": ["flow cytometry", "clustering"],
+  "tags": ["flow cytometry", "clustering", "dimensionality reduction"],
   "authors": ["tercen"],
   "urls": ["https://github.com/tercen/faust_operator"],
-  "container":"tercen/faust_operator:latest",
+  "container":"tercen/faust_operator:0.1.0",
   "properties": [
     {
     "kind": "DoubleProperty",
