@@ -5,5 +5,24 @@
   "authors": ["tercen"],
   "urls": ["https://github.com/tercen/faust_operator"],
   "container":"tercen/faust_operator:latest",
-  "properties": [ ]
+  "properties": [
+    {
+    "kind": "DoubleProperty",
+    "name": "selectionQuantile",
+    "defaultValue": 0.5,
+    "description": "Selection quantile. See FAUST documentation."
+    },
+    {
+    "kind": "DoubleProperty",
+    "name": "depthScoreThreshold",
+    "defaultValue": 0.01,
+    "description": "Depth score threshold. See FAUST documentation."
+    },
+    {
+    "kind": "DoubleProperty",
+    "name": "seed",
+    "defaultValue": 123,
+    "description": "Random seed."
+    }
+  ]
 }

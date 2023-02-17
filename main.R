@@ -6,6 +6,10 @@ library(tim)
 
 ctx <- tercenCtx()
 
+seed <- ctx$op.value("seed", as.double, 123)
+depthScoreThreshold <- ctx$op.value("depthScoreThreshold", as.double, 0.01)
+selectionQuantile <-  ctx$op.value("selectionQuantile", as.double, 0.5)
+
 if("filename" %in% names(ctx$cnames)) {
   mat <- ctx %>% as.matrix() %>% t()
   colnames(mat) <- ctx$rselect()[[1]]
@@ -36,8 +40,9 @@ faust::faust(
   projectPath         = projPath,
   annotationsApproved = TRUE,
   threadNum           = 4,
-  selectionQuantile   = 0.5,
-  depthScoreThreshold = 0.01,
+  selectionQuantile = selectionQuantile,
+  seedValue = seed,
+  depthScoreThreshold = depthScoreThreshold,
   densitySubSampleThreshold = 1e6,
   densitySubSampleSize = 1e6,
   drawAnnotationHistograms = FALSE,
@@ -69,8 +74,7 @@ df_out_png <- tim::png_to_df(diagnostic_plots)
 # output results
 join_png = df_out_png %>% 
   ctx$addNamespace() %>%
-  as_relation() #%>%
-  # as_join_operator(list(), list())
+  as_relation()
 
 join_res = df_out %>%
   ctx$addNamespace() %>%
