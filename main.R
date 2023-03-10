@@ -6,6 +6,7 @@ suppressPackageStartupMessages({
   library(tim)
 })
 
+
 ctx <- tercenCtx()
 
 seed <- ctx$op.value("seed", as.double, 123)
@@ -74,7 +75,14 @@ colnames(df_out) <- gsub("_faust_annotation", "_gate", colnames(df_out))
 diagnostic_plots <- list.files(path = projPath, pattern = ".png", recursive = TRUE, full.names = TRUE)
 diagnostic_plots <- diagnostic_plots[grep("hist_", diagnostic_plots)]
 
-df_out_png <- tim::png_to_df(diagnostic_plots)
+# df_out_png <- tim::png_to_df(diagnostic_plots)
+for( i in seq(1, length(diagnostic_plots))){
+  if(i == 1){
+    df_out_png <- tim::plot_file_to_df(diagnostic_plots[i])    
+  }else{
+    df_out_png <- rbind(df_out_png, tim::plot_file_to_df(diagnostic_plots[i]) )
+  }
+}
 # df_out_png <- do.call(rbind, lapply(diagnostic_plots, tim::plot_file_to_df))
 
 # output results
