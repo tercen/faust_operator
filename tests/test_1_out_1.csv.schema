@@ -1,0 +1,50 @@
+{
+  "kind": "TableSchema",
+  "columns": [
+    {
+      "kind": "ColumnSchema",
+      "name": "ds1.umap_1",
+      "type": "double"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": "ds1.umap_2",
+      "type": "double"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": "ds1.label",
+      "type": "string"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": "ds1.V3_gate",
+      "type": "double"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": "ds1.V2_gate",
+      "type": "double"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": "ds1.V4_gate",
+      "type": "double"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": "ds1.V5_gate",
+      "type": "double"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": "ds1.V1_gate",
+      "type": "double"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": ".i",
+      "type": "int32"
+    }
+  ]
+}
