@@ -6,7 +6,6 @@ WORKDIR /operator
 ENV TERCEN_SERVICE_URI https://tercen.com
 
 RUN R -e "remotes::install_github('tercen/tim', force=TRUE)"
-RUN R -e "remotes::install_github('RGLab/FAUST', force=TRUE)"
 
 
 

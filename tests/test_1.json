@@ -3,7 +3,7 @@
   "name": "test_1",
   "namespace": "ds1",
   "inputDataUri": "test_1_in.csv",
-  "outputDataUri": ["test_1_out_1.csv", "test_1_out_2.csv", "test_1_out_3.csv"],
+  "outputDataUri": ["test_1_out_1.csv", "test_1_out_2.csv"],
   "columns": [
     "rowId"
   ],
@@ -12,7 +12,19 @@
   "labels": [],
   "yAxis": "y_values",
   "xAxis": "",
-  "generatedOn": "03/10/2023 03:31:40 PM 2023",
+  "generatedOn": "03/10/2023 04:36:19 PM 2023",
   "version": "",
+  "propertyValues": [
+    {
+      "kind": "PropertyValue",
+      "name": "Default",
+      "value": "0.01",
+    },
+    {
+      "kind": "PropertyValue",
+      "name": "Default",
+      "value": "0.5",
+    }
+  ],
   "relTol": 1e-05
 }
