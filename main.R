@@ -6,7 +6,6 @@ suppressPackageStartupMessages({
   library(tim)
 })
 
-
 ctx <- tercenCtx()
 
 seed <- ctx$op.value("seed", as.double, 123)
