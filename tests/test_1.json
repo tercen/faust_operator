@@ -10,6 +10,7 @@
   "rows": ["gs0.variable"],
   "colors": [],
   "labels": [],
+  "skipColumns":[".content"],
   "yAxis": "y_values",
   "xAxis": "",
   "generatedOn": "03/10/2023 04:53:47 PM 2023",
