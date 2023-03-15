@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.2.2",
+    "Version": "4.0.4",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -9,7 +9,7 @@
     ]
   },
   "Bioconductor": {
-    "Version": null
+    "Version": "3.12"
   },
   "Packages": {
     "BH": {
@@ -51,6 +51,29 @@
         "utils"
       ],
       "Hash": "37348ee784e82c0a6b650146275b459d"
+    },
+    "BiocManager": {
+      "Package": "BiocManager",
+      "Version": "1.30.20",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "utils"
+      ],
+      "Hash": "a7fca16a50b6ef7771b49d636dd54b57"
+    },
+    "BiocVersion": {
+      "Package": "BiocVersion",
+      "Version": "3.12.0",
+      "Source": "Bioconductor",
+      "git_url": "https://git.bioconductor.org/packages/BiocVersion",
+      "git_branch": "master",
+      "git_last_commit": "23b9719",
+      "git_last_commit_date": "2020-04-27",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "ee4d027afb8f52fec1f46b9f0a8660e9"
     },
     "DelayedArray": {
       "Package": "DelayedArray",
@@ -1149,6 +1172,32 @@
       ],
       "Hash": "c956d93f6768a9789edbc13072b70c78"
     },
+    "stringi": {
+      "Package": "stringi",
+      "Version": "1.5.3",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "stats",
+        "tools",
+        "utils"
+      ],
+      "Hash": "a063ebea753c92910a4cca7b18bc1f05"
+    },
+    "stringr": {
+      "Package": "stringr",
+      "Version": "1.4.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "glue",
+        "magrittr",
+        "stringi"
+      ],
+      "Hash": "0759e6b6c0957edb1311028a49a35e76"
+    },
     "sys": {
       "Package": "sys",
       "Version": "3.4",
@@ -1159,20 +1208,27 @@
     "teRcenHttp": {
       "Package": "teRcenHttp",
       "Version": "1.0.21",
-      "Source": "unknown",
-      "Hash": "18e6c920fb7ddb33ea4e265098ca24c9"
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "tercen",
+      "RemoteRepo": "teRcenHttp",
+      "RemoteRef": "1.0.21",
+      "RemoteSha": "2997686f396aedbf3f3bfc0a6eaeb623434351bb",
+      "Hash": "d11c997e9090e1f2200381c981764ebc"
     },
     "tercen": {
       "Package": "tercen",
       "Version": "0.12.7",
       "Source": "GitHub",
-      "Remotes": "tercen/tercenApi@0.12.7",
       "RemoteType": "github",
+      "Remotes": "tercen/tercenApi@0.12.7",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "teRcen",
       "RemoteUsername": "tercen",
       "RemoteRef": "0.12.7",
       "RemoteSha": "b6872f66ae4de70420c80c834e6e4da076fee2d3",
+      "Remotes": "tercen/tercenApi@0.12.7",
       "Requirements": [
         "R6",
         "dplyr",
@@ -1184,25 +1240,26 @@
         "uuid",
         "yaml"
       ],
-      "Hash": "8ed69059792b34fb7dd616d4a6a32eda"
+      "Hash": "6de3f976b2c69d70d3e8b395893091d1"
     },
     "tercenApi": {
       "Package": "tercenApi",
       "Version": "0.12.7",
       "Source": "GitHub",
-      "Remotes": "tercen/teRcenHttp@1.0.21",
       "RemoteType": "github",
+      "Remotes": "tercen/teRcenHttp@1.0.21",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "tercenApi",
       "RemoteUsername": "tercen",
       "RemoteRef": "0.12.7",
       "RemoteSha": "2c42ab2edef2365bd5d654be331a4ac6e93250f0",
+      "Remotes": "tercen/teRcenHttp@1.0.21",
       "Requirements": [
         "R6",
         "teRcenHttp",
         "yaml"
       ],
-      "Hash": "cc1559c7c5b4030cca90a3d324e19b9b"
+      "Hash": "a68f8621076ae924cd8183db6c9fa29e"
     },
     "tibble": {
       "Package": "tibble",
@@ -1263,20 +1320,22 @@
     },
     "tim": {
       "Package": "tim",
-      "Version": "0.0.13",
+      "Version": "0.0.0.99",
       "Source": "GitHub",
-      "Remotes": "tercen/teRcen@0.12.7",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "tim",
       "RemoteUsername": "tercen",
-      "RemoteRef": "0.0.13",
-      "RemoteSha": "4b542f1bfa8489c81b0a974d686ccad68159a7e5",
+      "RemoteRef": "0.1.0",
+      "RemoteSha": "6b9a6bf9a8853d9dd3f6992a7aee2d7da2f8cfdd",
       "Requirements": [
         "base64enc",
+        "jsonlite",
+        "stringi",
+        "stringr",
         "tercen"
       ],
-      "Hash": "fcdbd710a5aff26009983ab8cb633c19"
+      "Hash": "7ccf991cd49fa24c7f41fd027e05c07b"
     },
     "utf8": {
       "Package": "utf8",
