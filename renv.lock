@@ -1213,15 +1213,15 @@
     },
     "teRcenHttp": {
       "Package": "teRcenHttp",
-      "Version": "1.0.21",
+      "Version": "1.0.22",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteUsername": "tercen",
       "RemoteRepo": "teRcenHttp",
-      "RemoteRef": "1.0.21",
-      "RemoteSha": "2997686f396aedbf3f3bfc0a6eaeb623434351bb",
-      "Hash": "d11c997e9090e1f2200381c981764ebc"
+      "RemoteUsername": "tercen",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "2d9d283d8a281b724ed32ba3d43d39f34dfdcba8",
+      "Hash": "42a596dc94d929b8e684858147e05333"
     },
     "tercen": {
       "Package": "tercen",
