@@ -1,447 +1,575 @@
 {
   "R": {
-    "Version": "4.0.4",
+    "Version": "4.2.2",
     "Repositories": [
       {
-        "Name": "TERCEN",
-        "URL": "https://cran.tercen.com/api/v1/rlib/tercen"
-      },
-      {
         "Name": "CRAN",
-        "URL": "https://cran.tercen.com/api/v1/rlib/CRAN"
-      },
-      {
-        "Name": "BioCsoft",
-        "URL": "https://cran.tercen.com/api/v1/rlib/BioCsoft-3.12"
-      },
-      {
-        "Name": "BioCann",
-        "URL": "https://cran.tercen.com/api/v1/rlib/BioCann-3.12"
-      },
-      {
-        "Name": "BioCexp",
-        "URL": "https://cran.tercen.com/api/v1/rlib/BioCexp-3.12"
-      },
-      {
-        "Name": "BioCworkflows",
-        "URL": "https://cran.tercen.com/api/v1/rlib/BioCworkflows-3.12"
+        "URL": "https://cloud.r-project.org"
       }
     ]
+  },
+  "Bioconductor": {
+    "Version": null
   },
   "Packages": {
     "BH": {
       "Package": "BH",
-      "Version": "1.75.0-0",
+      "Version": "1.78.0-0",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "e4c04affc2cac20c8fec18385cd14691",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Hash": "4e348572ffcaa2fb1e610e7a941f6f3a"
     },
     "Biobase": {
       "Package": "Biobase",
-      "Version": "2.50.0",
+      "Version": "2.56.0",
       "Source": "Bioconductor",
       "git_url": "https://git.bioconductor.org/packages/Biobase",
-      "git_branch": "RELEASE_3_12",
-      "git_last_commit": "9927f90",
-      "git_last_commit_date": "2020-10-27",
-      "Hash": "f49586e579b712b7e55253aba0c9bc21",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "3b2dd91",
+      "git_last_commit_date": "2022-04-26",
       "Requirements": [
-        "BiocGenerics"
-      ]
+        "BiocGenerics",
+        "R",
+        "methods",
+        "utils"
+      ],
+      "Hash": "b58c1eb25be406d1a35dd4cff0e9ba2e"
     },
     "BiocGenerics": {
       "Package": "BiocGenerics",
-      "Version": "0.36.1",
+      "Version": "0.42.0",
       "Source": "Bioconductor",
       "git_url": "https://git.bioconductor.org/packages/BiocGenerics",
-      "git_branch": "RELEASE_3_12",
-      "git_last_commit": "0b1c4b9",
-      "git_last_commit_date": "2021-04-16",
-      "Hash": "f628c51eadc74ffd838b801cd22d589a",
-      "Requirements": []
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "3582d47",
+      "git_last_commit_date": "2022-04-26",
+      "Requirements": [
+        "R",
+        "graphics",
+        "methods",
+        "stats",
+        "utils"
+      ],
+      "Hash": "37348ee784e82c0a6b650146275b459d"
+    },
+    "DelayedArray": {
+      "Package": "DelayedArray",
+      "Version": "0.22.0",
+      "Source": "Bioconductor",
+      "git_url": "https://git.bioconductor.org/packages/DelayedArray",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "4a5afd1",
+      "git_last_commit_date": "2022-04-26",
+      "Requirements": [
+        "BiocGenerics",
+        "IRanges",
+        "Matrix",
+        "MatrixGenerics",
+        "R",
+        "S4Vectors",
+        "methods",
+        "stats",
+        "stats4"
+      ],
+      "Hash": "c83a6e282a9669d4e04eb2d2ce8660a8"
     },
     "FNN": {
       "Package": "FNN",
       "Version": "1.1.3.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "a774898dbc05ccf03ed4ca93fa7a71f4",
-      "Requirements": []
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "a774898dbc05ccf03ed4ca93fa7a71f4"
+    },
+    "IRanges": {
+      "Package": "IRanges",
+      "Version": "2.30.0",
+      "Source": "Bioconductor",
+      "git_url": "https://git.bioconductor.org/packages/IRanges",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "9b5f3ca",
+      "git_last_commit_date": "2022-04-26",
+      "Requirements": [
+        "BiocGenerics",
+        "R",
+        "S4Vectors",
+        "methods",
+        "stats",
+        "stats4",
+        "utils"
+      ],
+      "Hash": "27d19cab80fa238e21abfbd2892120f4"
     },
     "MASS": {
       "Package": "MASS",
-      "Version": "7.3-53",
+      "Version": "7.3-58",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "d1bc1c8e9c0ace57ec9ffea01021d45f",
-      "Requirements": []
+      "Requirements": [
+        "R",
+        "grDevices",
+        "graphics",
+        "methods",
+        "stats",
+        "utils"
+      ],
+      "Hash": "4bf2c61e656bbc238634c798c208d386"
     },
     "Matrix": {
       "Package": "Matrix",
-      "Version": "1.5-3",
+      "Version": "1.5-1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "4006dffe49958d2dd591c17e61e60591",
       "Requirements": [
-        "lattice"
-      ]
+        "R",
+        "graphics",
+        "grid",
+        "lattice",
+        "methods",
+        "stats",
+        "utils"
+      ],
+      "Hash": "539dc0c0c05636812f1080f473d2c177"
+    },
+    "MatrixGenerics": {
+      "Package": "MatrixGenerics",
+      "Version": "1.8.0",
+      "Source": "Bioconductor",
+      "git_url": "https://git.bioconductor.org/packages/MatrixGenerics",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "e4cc34d",
+      "git_last_commit_date": "2022-04-26",
+      "Requirements": [
+        "matrixStats",
+        "methods"
+      ],
+      "Hash": "68a6ed57fd9a1d0d6beea73507b3ff59"
     },
     "R6": {
       "Package": "R6",
-      "Version": "2.5.0",
+      "Version": "2.5.1",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "b203113193e70978a696b2809525649d",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "470851b6d5d0ac559e9d01bb352b4021"
     },
     "RBGL": {
       "Package": "RBGL",
-      "Version": "1.66.0",
+      "Version": "1.72.0",
       "Source": "Bioconductor",
       "git_url": "https://git.bioconductor.org/packages/RBGL",
-      "git_branch": "RELEASE_3_12",
-      "git_last_commit": "bf0c111",
-      "git_last_commit_date": "2020-10-27",
-      "Hash": "1769a317bb8efa5c9a8bb7e04a77411a",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "a86f310",
+      "git_last_commit_date": "2022-04-26",
       "Requirements": [
         "BH",
-        "graph"
-      ]
+        "graph",
+        "methods"
+      ],
+      "Hash": "7977db911751ce0f30305135f6d37f83"
     },
     "RColorBrewer": {
       "Package": "RColorBrewer",
-      "Version": "1.1-2",
+      "Version": "1.1-3",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "e031418365a7f7a766181ab5a41a5716",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "45f0398006e83a5b10b72a90663d8d8c"
     },
     "RProtoBufLib": {
       "Package": "RProtoBufLib",
-      "Version": "2.2.0",
+      "Version": "2.8.0",
       "Source": "Bioconductor",
       "git_url": "https://git.bioconductor.org/packages/RProtoBufLib",
-      "git_branch": "RELEASE_3_12",
-      "git_last_commit": "28d99c5",
-      "git_last_commit_date": "2020-10-27",
-      "Hash": "13cee985e2b760ab2c9d146fc917d57f",
-      "Requirements": []
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "bc46096",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "256bd1cc91c4259aa59adfa29e1d8819"
+    },
+    "RSpectra": {
+      "Package": "RSpectra",
+      "Version": "0.16-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "Matrix",
+        "R",
+        "Rcpp",
+        "RcppEigen"
+      ],
+      "Hash": "6b5ab997fd5ff6d46a5f1d9f8b76961c"
     },
     "Rcpp": {
       "Package": "Rcpp",
-      "Version": "1.0.10",
+      "Version": "1.0.8.3",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "e749cae40fa9ef469b6050959517453c",
-      "Requirements": []
+      "Requirements": [
+        "methods",
+        "utils"
+      ],
+      "Hash": "32e79b908fda56ee57fe518a8d37b864"
     },
     "RcppAnnoy": {
       "Package": "RcppAnnoy",
-      "Version": "0.0.20",
+      "Version": "0.0.19",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "0ad7d4b7e506364457d624c8353e1e4e",
       "Requirements": [
-        "Rcpp"
-      ]
+        "R",
+        "Rcpp",
+        "methods"
+      ],
+      "Hash": "5681153e3eb103725e35ac5f7ebca910"
     },
     "RcppArmadillo": {
       "Package": "RcppArmadillo",
-      "Version": "0.12.0.1.0",
+      "Version": "0.11.1.1.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "dee7cfd76b4c78bab84e09b74b6d471f",
       "Requirements": [
-        "Rcpp"
-      ]
+        "R",
+        "Rcpp",
+        "methods",
+        "stats",
+        "utils"
+      ],
+      "Hash": "631929e53829901562986c504f86104b"
     },
     "RcppEigen": {
       "Package": "RcppEigen",
-      "Version": "0.3.3.9.3",
+      "Version": "0.3.3.9.2",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "1e035db628cefb315c571202d70202fe",
       "Requirements": [
         "Matrix",
-        "Rcpp"
-      ]
+        "Rcpp",
+        "stats",
+        "utils"
+      ],
+      "Hash": "4c86baed78388ceb06f88e3e9a1d87f5"
     },
     "RcppParallel": {
       "Package": "RcppParallel",
-      "Version": "5.1.7",
+      "Version": "5.1.5",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "a45594a00f5dbb073d5ec9f48592a08a",
-      "Requirements": []
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "f3e94e34ff656a7c8336ce01207bc2b8"
     },
     "RcppProgress": {
       "Package": "RcppProgress",
       "Version": "0.4.2",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "1c0aa18b97e6aaa17f93b8b866c0ace5",
-      "Requirements": []
+      "Hash": "1c0aa18b97e6aaa17f93b8b866c0ace5"
     },
     "Rgraphviz": {
       "Package": "Rgraphviz",
-      "Version": "2.34.0",
+      "Version": "2.40.0",
       "Source": "Bioconductor",
       "git_url": "https://git.bioconductor.org/packages/Rgraphviz",
-      "git_branch": "RELEASE_3_12",
-      "git_last_commit": "9746623",
-      "git_last_commit_date": "2020-10-27",
-      "Hash": "c11725feebcbda0a42de33b7e90da2ac",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "d864c97",
+      "git_last_commit_date": "2022-04-26",
       "Requirements": [
-        "graph"
-      ]
+        "R",
+        "grDevices",
+        "graph",
+        "graphics",
+        "grid",
+        "methods",
+        "stats4",
+        "utils"
+      ],
+      "Hash": "86c68a02b741b58960dae7c328d55fbb"
     },
     "Rhdf5lib": {
       "Package": "Rhdf5lib",
-      "Version": "1.12.1",
+      "Version": "1.18.0",
       "Source": "Bioconductor",
       "git_url": "https://git.bioconductor.org/packages/Rhdf5lib",
-      "git_branch": "RELEASE_3_12",
-      "git_last_commit": "cf464f4",
-      "git_last_commit_date": "2021-01-26",
-      "Hash": "7dc9be3558a910226d64a2040520dc7f",
-      "Requirements": []
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "3e8db28",
+      "git_last_commit_date": "2022-04-26",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "f026ea7292a7e259747857f45fbdbce2"
     },
     "S4Vectors": {
       "Package": "S4Vectors",
-      "Version": "0.28.1",
+      "Version": "0.34.0",
       "Source": "Bioconductor",
       "git_url": "https://git.bioconductor.org/packages/S4Vectors",
-      "git_branch": "RELEASE_3_12",
-      "git_last_commit": "994cb7e",
-      "git_last_commit_date": "2020-12-08",
-      "Hash": "f558c55a285751bd72af11d2bb853521",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "f590de3",
+      "git_last_commit_date": "2022-04-26",
       "Requirements": [
-        "BiocGenerics"
-      ]
+        "BiocGenerics",
+        "R",
+        "methods",
+        "stats",
+        "stats4",
+        "utils"
+      ],
+      "Hash": "90677cc888563927cecacd4067ccad45"
     },
     "XML": {
       "Package": "XML",
-      "Version": "3.99-0.13",
+      "Version": "3.99-0.9",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "8b4dce3d0f7b7c6ca7501d53e68a1bf5",
-      "Requirements": []
+      "Requirements": [
+        "R",
+        "methods",
+        "utils"
+      ],
+      "Hash": "6e75b3884423e21eda89b424a98e091d"
     },
     "askpass": {
       "Package": "askpass",
       "Version": "1.1",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "e8a22846fff485f0be3770c2da758713",
+      "Repository": "CRAN",
       "Requirements": [
         "sys"
-      ]
-    },
-    "assertthat": {
-      "Package": "assertthat",
-      "Version": "0.2.1",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "50c838a310445e954bc13f26f26a6ecf",
-      "Requirements": []
+      ],
+      "Hash": "e8a22846fff485f0be3770c2da758713"
     },
     "aws.s3": {
       "Package": "aws.s3",
       "Version": "0.3.21",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "a0b873f71741bba67e3bc128d8f09fe3",
       "Requirements": [
         "aws.signature",
         "base64enc",
         "curl",
         "digest",
         "httr",
+        "tools",
+        "utils",
         "xml2"
-      ]
+      ],
+      "Hash": "a0b873f71741bba67e3bc128d8f09fe3"
     },
     "aws.signature": {
       "Package": "aws.signature",
       "Version": "0.6.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "0006bcef272aad12f78dd5a85fc7f4fc",
       "Requirements": [
         "base64enc",
         "digest"
-      ]
+      ],
+      "Hash": "0006bcef272aad12f78dd5a85fc7f4fc"
     },
     "base64enc": {
       "Package": "base64enc",
       "Version": "0.1-3",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "543776ae6848fde2f48ff3816d0628bc",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "543776ae6848fde2f48ff3816d0628bc"
     },
     "bit": {
       "Package": "bit",
       "Version": "4.0.4",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "f36715f14d94678eea9933af927bc15d",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "f36715f14d94678eea9933af927bc15d"
     },
     "cli": {
       "Package": "cli",
-      "Version": "2.3.1",
+      "Version": "3.3.0",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "3e3f28efcadfda442cd18651fbcbbecf",
+      "Repository": "CRAN",
       "Requirements": [
-        "assertthat",
-        "glue"
-      ]
+        "R",
+        "glue",
+        "utils"
+      ],
+      "Hash": "23abf173c2b783dcc43379ab9bba00ee"
     },
     "colorspace": {
       "Package": "colorspace",
-      "Version": "2.0-0",
+      "Version": "2.0-3",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "abea3384649ef37f60ef51ce002f3547",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "grDevices",
+        "graphics",
+        "methods",
+        "stats"
+      ],
+      "Hash": "bb4341986bc8b914f0f0acf2e4a3f2f7"
     },
     "cowplot": {
       "Package": "cowplot",
       "Version": "1.1.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "b418e8423699d11c7f2087c2bfd07da2",
       "Requirements": [
+        "R",
         "ggplot2",
+        "grDevices",
+        "grid",
         "gtable",
+        "methods",
         "rlang",
         "scales"
-      ]
+      ],
+      "Hash": "b418e8423699d11c7f2087c2bfd07da2"
     },
     "cpp11": {
       "Package": "cpp11",
-      "Version": "0.2.7",
+      "Version": "0.4.2",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "730eebcc741a5c36761f7d4d0f5e37b8",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Hash": "fa53ce256cd280f468c080a58ea5ba8c"
     },
     "crayon": {
       "Package": "crayon",
-      "Version": "1.4.1",
+      "Version": "1.5.1",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "e75525c55c70e5f4f78c9960a4b402e9",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "grDevices",
+        "methods",
+        "utils"
+      ],
+      "Hash": "8dc45fd8a1ee067a92b85ef274e66d6a"
     },
     "curl": {
       "Package": "curl",
-      "Version": "4.3",
+      "Version": "4.3.2",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "2b7d10581cc730804e9ed178c8374bd6",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "022c42d49c28e95d69ca60446dbabf88"
     },
     "cytolib": {
       "Package": "cytolib",
-      "Version": "2.2.1",
+      "Version": "2.8.0",
       "Source": "Bioconductor",
       "git_url": "https://git.bioconductor.org/packages/cytolib",
-      "git_branch": "RELEASE_3_12",
-      "git_last_commit": "fb08852",
-      "git_last_commit_date": "2021-01-16",
-      "Hash": "a845d719d5277f063a6dcea2f6d0d7d9",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "733543e",
+      "git_last_commit_date": "2022-04-26",
       "Requirements": [
         "BH",
+        "R",
         "RProtoBufLib",
         "Rcpp",
         "RcppArmadillo",
         "RcppParallel",
         "Rhdf5lib"
-      ]
+      ],
+      "Hash": "09beb917bdebccd7f51eccf745b99794"
     },
     "data.table": {
       "Package": "data.table",
-      "Version": "1.14.0",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "d1b8b1a821ee564a3515fa6c6d5c52dc",
-      "Requirements": []
-    },
-    "deldir": {
-      "Package": "deldir",
-      "Version": "1.0-6",
+      "Version": "1.14.2",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "65a3d4e2a1619bb85ae0fb64628da972",
-      "Requirements": []
+      "Requirements": [
+        "R",
+        "methods"
+      ],
+      "Hash": "36b67b5adf57b292923f5659f5f0c853"
     },
     "digest": {
       "Package": "digest",
-      "Version": "0.6.27",
+      "Version": "0.6.29",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "a0cbe758a531d054b537d16dff4d58a1",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "utils"
+      ],
+      "Hash": "cf6b206a045a684728c3267ef7596190"
     },
     "dplyr": {
       "Package": "dplyr",
-      "Version": "1.0.5",
+      "Version": "1.0.9",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "d0d76c11ec807eb3f000eba4e3eb0f68",
+      "Repository": "CRAN",
       "Requirements": [
+        "R",
         "R6",
-        "ellipsis",
         "generics",
         "glue",
         "lifecycle",
         "magrittr",
+        "methods",
+        "pillar",
         "rlang",
         "tibble",
         "tidyselect",
+        "utils",
         "vctrs"
-      ]
+      ],
+      "Hash": "f0bda1627a7f5d3f9a0b5add931596ac"
     },
     "dqrng": {
       "Package": "dqrng",
       "Version": "0.3.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "3ce2af5ead3b01c518fd453c7fe5a51a",
       "Requirements": [
         "BH",
+        "R",
         "Rcpp",
         "sitmo"
-      ]
+      ],
+      "Hash": "3ce2af5ead3b01c518fd453c7fe5a51a"
     },
     "ellipsis": {
       "Package": "ellipsis",
-      "Version": "0.3.1",
+      "Version": "0.3.2",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "fd2844b3a43ae2d27e70ece2df1b4e2a",
+      "Repository": "CRAN",
       "Requirements": [
+        "R",
         "rlang"
-      ]
+      ],
+      "Hash": "bb0eec2fe32e88d9e2836c2f73ea2077"
     },
     "fansi": {
       "Package": "fansi",
-      "Version": "0.4.2",
+      "Version": "1.0.3",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "fea074fb67fe4c25d47ad09087da847d",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "grDevices",
+        "utils"
+      ],
+      "Hash": "83a8afdbe71839506baa9f90eebad7ec"
     },
     "farver": {
       "Package": "farver",
       "Version": "2.1.0",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "c98eb5133d9cb9e1622b8691487f11bb",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Hash": "c98eb5133d9cb9e1622b8691487f11bb"
     },
     "faust": {
       "Package": "faust",
@@ -449,13 +577,13 @@
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteRepo": "Faust",
+      "RemoteRepo": "FAUST",
       "RemoteUsername": "RGLab",
-      "RemoteRef": "HEAD",
+      "RemoteRef": "f900614",
       "RemoteSha": "f900614e98b3fb39c55c9b4f47f632cba4a9bd20",
-      "Hash": "dcfe6a55eaae288da62136f8fbc2c376",
       "Requirements": [
         "Biobase",
+        "R",
         "Rcpp",
         "bit",
         "cowplot",
@@ -466,55 +594,72 @@
         "flowWorkspace",
         "ggplot2",
         "ggridges",
+        "grDevices",
         "scamp",
+        "stats",
         "tidyr",
+        "utils",
         "uwot",
         "viridis",
         "whisker"
-      ]
+      ],
+      "Hash": "d191e8b7268f6fc1df453fe6c4f52769"
     },
     "fdrtool": {
       "Package": "fdrtool",
       "Version": "1.2.17",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "9feeb4e7a484e663a52d7de89135591a",
-      "Requirements": []
+      "Requirements": [
+        "R",
+        "grDevices",
+        "graphics",
+        "stats"
+      ],
+      "Hash": "9feeb4e7a484e663a52d7de89135591a"
     },
     "flowCore": {
       "Package": "flowCore",
-      "Version": "2.2.0",
+      "Version": "2.8.0",
       "Source": "Bioconductor",
       "git_url": "https://git.bioconductor.org/packages/flowCore",
-      "git_branch": "RELEASE_3_12",
-      "git_last_commit": "86a9aca",
-      "git_last_commit_date": "2020-10-27",
-      "Hash": "14bcb20d63e372d1e308244a0bb10d82",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "586541d",
+      "git_last_commit_date": "2022-04-26",
       "Requirements": [
         "BH",
         "Biobase",
         "BiocGenerics",
+        "R",
         "RProtoBufLib",
         "Rcpp",
         "RcppArmadillo",
         "S4Vectors",
         "cytolib",
-        "matrixStats"
-      ]
+        "grDevices",
+        "graphics",
+        "matrixStats",
+        "methods",
+        "stats",
+        "stats4",
+        "utils"
+      ],
+      "Hash": "699b5ca7b5580dfd5fecec7d742a0808"
     },
     "flowWorkspace": {
       "Package": "flowWorkspace",
-      "Version": "4.2.0",
+      "Version": "4.8.0",
       "Source": "Bioconductor",
       "git_url": "https://git.bioconductor.org/packages/flowWorkspace",
-      "git_branch": "RELEASE_3_12",
-      "git_last_commit": "6af477a",
-      "git_last_commit_date": "2020-10-27",
-      "Hash": "d3e8a6ffde0e2cc7343b250c7d939e21",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "8cb4b97",
+      "git_last_commit_date": "2022-04-26",
       "Requirements": [
         "BH",
         "Biobase",
         "BiocGenerics",
+        "DelayedArray",
+        "R",
         "RBGL",
         "RProtoBufLib",
         "Rcpp",
@@ -522,6 +667,7 @@
         "RcppParallel",
         "Rgraphviz",
         "Rhdf5lib",
+        "S4Vectors",
         "XML",
         "aws.s3",
         "aws.signature",
@@ -531,370 +677,450 @@
         "dplyr",
         "flowCore",
         "ggplot2",
+        "grDevices",
         "graph",
+        "graphics",
         "lattice",
         "latticeExtra",
         "matrixStats",
+        "methods",
         "ncdfFlow",
-        "scales"
-      ]
+        "scales",
+        "stats",
+        "stats4",
+        "tools",
+        "utils"
+      ],
+      "Hash": "b666c50b13f368642107d5e68270da52"
     },
     "generics": {
       "Package": "generics",
-      "Version": "0.1.0",
+      "Version": "0.1.2",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "4d243a9c10b00589889fe32314ffd902",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "methods"
+      ],
+      "Hash": "177475892cf4a55865868527654a7741"
     },
     "ggplot2": {
       "Package": "ggplot2",
-      "Version": "3.3.3",
+      "Version": "3.3.6",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "3eb6477d01eb5bbdc03f7d5f70f2733e",
+      "Repository": "CRAN",
       "Requirements": [
         "MASS",
+        "R",
         "digest",
         "glue",
+        "grDevices",
+        "grid",
         "gtable",
         "isoband",
         "mgcv",
         "rlang",
         "scales",
+        "stats",
         "tibble",
         "withr"
-      ]
+      ],
+      "Hash": "0fb26d0674c82705c6b701d1a61e02ea"
     },
     "ggridges": {
       "Package": "ggridges",
-      "Version": "0.5.4",
+      "Version": "0.5.3",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "c76ee8fe60939384b9726128e38caea0",
       "Requirements": [
+        "R",
         "ggplot2",
+        "grid",
+        "plyr",
         "scales",
         "withr"
-      ]
+      ],
+      "Hash": "9d028e8f37c84dba356ce3c367a1978e"
     },
     "glue": {
       "Package": "glue",
-      "Version": "1.4.2",
+      "Version": "1.6.2",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "6efd734b14c6471cfe443345f3e35e29",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "methods"
+      ],
+      "Hash": "4f2596dfb05dac67b9dc558e5c6fba2e"
     },
     "graph": {
       "Package": "graph",
-      "Version": "1.68.0",
+      "Version": "1.74.0",
       "Source": "Bioconductor",
       "git_url": "https://git.bioconductor.org/packages/graph",
-      "git_branch": "RELEASE_3_12",
-      "git_last_commit": "03ad9ed",
-      "git_last_commit_date": "2020-10-27",
-      "Hash": "38322867731e9e137d21b13778a96b5f",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "4af608a",
+      "git_last_commit_date": "2022-04-26",
       "Requirements": [
-        "BiocGenerics"
-      ]
+        "BiocGenerics",
+        "R",
+        "methods",
+        "stats",
+        "stats4",
+        "utils"
+      ],
+      "Hash": "08e64017b9fc86340df1a13eb89573cc"
     },
     "gridExtra": {
       "Package": "gridExtra",
       "Version": "2.3",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "7d7f283939f563670a697165b2cf5560",
       "Requirements": [
-        "gtable"
-      ]
+        "grDevices",
+        "graphics",
+        "grid",
+        "gtable",
+        "utils"
+      ],
+      "Hash": "7d7f283939f563670a697165b2cf5560"
     },
     "gtable": {
       "Package": "gtable",
       "Version": "0.3.0",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "ac5c6baf7822ce8732b343f14c072c4d",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "grid"
+      ],
+      "Hash": "ac5c6baf7822ce8732b343f14c072c4d"
     },
     "httr": {
       "Package": "httr",
-      "Version": "1.4.2",
+      "Version": "1.4.3",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "a525aba14184fec243f9eaec62fbed43",
+      "Repository": "CRAN",
       "Requirements": [
+        "R",
         "R6",
         "curl",
         "jsonlite",
         "mime",
         "openssl"
-      ]
-    },
-    "interp": {
-      "Package": "interp",
-      "Version": "1.1-3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "593dde779b230c60c4b589fd306bcd3e",
-      "Requirements": [
-        "Rcpp",
-        "RcppEigen",
-        "deldir"
-      ]
+      ],
+      "Hash": "88d1b310583777edf01ccd1216fb0b2b"
     },
     "irlba": {
       "Package": "irlba",
-      "Version": "2.3.5.1",
+      "Version": "2.3.5",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "acb06a47b732c6251afd16e19c3201ff",
       "Requirements": [
-        "Matrix"
-      ]
+        "Matrix",
+        "R",
+        "methods",
+        "stats"
+      ],
+      "Hash": "066c11bb9bc75b343f3de1ecaf3b7ba2"
     },
     "isoband": {
       "Package": "isoband",
-      "Version": "0.2.4",
+      "Version": "0.2.5",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "b2008df40fb297e3fef135c7e8eeec1a",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "grid",
+        "utils"
+      ],
+      "Hash": "7ab57a6de7f48a8dc84910d1eca42883"
     },
     "jpeg": {
       "Package": "jpeg",
-      "Version": "0.1-10",
+      "Version": "0.1-9",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "031a0b683d001a7519202f0628fc0358",
-      "Requirements": []
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "441ee36360a57b363f4fa3df0c364630"
     },
     "jsonlite": {
       "Package": "jsonlite",
-      "Version": "1.7.2",
+      "Version": "1.8.0",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "98138e0994d41508c7a6b84a0600cfcb",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "methods"
+      ],
+      "Hash": "d07e729b27b372429d42d24d503613a0"
     },
     "labeling": {
       "Package": "labeling",
       "Version": "0.4.2",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "3d5108641f47470611a32d0bdf357a72",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "graphics",
+        "stats"
+      ],
+      "Hash": "3d5108641f47470611a32d0bdf357a72"
     },
     "lattice": {
       "Package": "lattice",
-      "Version": "0.20-41",
+      "Version": "0.20-45",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "fbd9285028b0263d76d18c95ae51a53d",
-      "Requirements": []
+      "Requirements": [
+        "R",
+        "grDevices",
+        "graphics",
+        "grid",
+        "stats",
+        "utils"
+      ],
+      "Hash": "b64cdbb2b340437c4ee047a1f4c4377b"
     },
     "latticeExtra": {
       "Package": "latticeExtra",
-      "Version": "0.6-30",
+      "Version": "0.6-29",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "0857b103442b4657416508733c8c6678",
       "Requirements": [
-        "MASS",
+        "R",
         "RColorBrewer",
-        "interp",
+        "grDevices",
+        "grid",
         "jpeg",
         "lattice",
-        "png"
-      ]
+        "png",
+        "stats",
+        "utils"
+      ],
+      "Hash": "590829599d6182cf7461787af34666ee"
     },
     "lifecycle": {
       "Package": "lifecycle",
-      "Version": "1.0.0",
+      "Version": "1.0.1",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "3471fb65971f1a7b2d4ae7848cf2db8d",
+      "Repository": "CRAN",
       "Requirements": [
+        "R",
         "glue",
         "rlang"
-      ]
+      ],
+      "Hash": "a6b6d352e3ed897373ab19d8395c98d0"
     },
     "magrittr": {
       "Package": "magrittr",
-      "Version": "2.0.1",
+      "Version": "2.0.3",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "41287f1ac7d28a92f0a286ed507928d3",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "7ce2733a9826b3aeb1775d56fd305472"
     },
     "matrixStats": {
       "Package": "matrixStats",
-      "Version": "0.63.0",
+      "Version": "0.62.0",
       "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "57af0c3da1f1a50680b186591c3359af",
-      "Requirements": []
+      "Repository": "RSPM",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "36ad89a805c436c5316c22490079da67"
     },
     "mgcv": {
       "Package": "mgcv",
-      "Version": "1.8-33",
+      "Version": "1.8-41",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "eb7b6439bc6d812eed2cddba5edc6be3",
       "Requirements": [
         "Matrix",
-        "nlme"
-      ]
+        "R",
+        "graphics",
+        "methods",
+        "nlme",
+        "splines",
+        "stats",
+        "utils"
+      ],
+      "Hash": "6b3904f13346742caa3e82dd0303d4ad"
     },
     "mime": {
       "Package": "mime",
-      "Version": "0.10",
+      "Version": "0.12",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "26fa77e707223e1ce042b2b5d09993dc",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "tools"
+      ],
+      "Hash": "18e9c28c1d3ca1560ce30658b22ce104"
     },
     "mtercen": {
       "Package": "mtercen",
       "Version": "1.0.8",
-      "Source": "Repository",
-      "Repository": "TERCEN",
-      "Hash": "27b03b2685b9424f08521ea09d24860e",
-      "Requirements": []
+      "Source": "unknown",
+      "Hash": "27b03b2685b9424f08521ea09d24860e"
     },
     "munsell": {
       "Package": "munsell",
       "Version": "0.5.0",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "6dfe8bf774944bd5595785e3229d8771",
+      "Repository": "CRAN",
       "Requirements": [
-        "colorspace"
-      ]
+        "colorspace",
+        "methods"
+      ],
+      "Hash": "6dfe8bf774944bd5595785e3229d8771"
     },
     "ncdfFlow": {
       "Package": "ncdfFlow",
-      "Version": "2.36.0",
+      "Version": "2.42.0",
       "Source": "Bioconductor",
       "git_url": "https://git.bioconductor.org/packages/ncdfFlow",
-      "git_branch": "RELEASE_3_12",
-      "git_last_commit": "786f1c0",
-      "git_last_commit_date": "2020-10-27",
-      "Hash": "7d8333681899571caabecc3ee7a686b4",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "9580047",
+      "git_last_commit_date": "2022-04-26",
       "Requirements": [
         "BH",
         "Biobase",
         "BiocGenerics",
+        "R",
         "Rcpp",
         "RcppArmadillo",
         "Rhdf5lib",
         "flowCore",
+        "methods",
         "zlibbioc"
-      ]
+      ],
+      "Hash": "cd3e027b719f55f33b5d000a14524beb"
     },
     "nlme": {
       "Package": "nlme",
-      "Version": "3.1-152",
+      "Version": "3.1-160",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "35de1ce639f20b5e10f7f46260730c65",
       "Requirements": [
-        "lattice"
-      ]
+        "R",
+        "graphics",
+        "lattice",
+        "stats",
+        "utils"
+      ],
+      "Hash": "02e3c6e7df163aafa8477225e6827bc5"
     },
     "openssl": {
       "Package": "openssl",
-      "Version": "1.4.3",
+      "Version": "2.0.2",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "a399e4773075fc2375b71f45fca186c4",
+      "Repository": "CRAN",
       "Requirements": [
         "askpass"
-      ]
+      ],
+      "Hash": "6d3bef2e305f55c705c674653c7d7d3d"
     },
     "pillar": {
       "Package": "pillar",
-      "Version": "1.5.1",
+      "Version": "1.7.0",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "24622aa4a0d3de3463c34513edca99b2",
+      "Repository": "CRAN",
       "Requirements": [
         "cli",
         "crayon",
         "ellipsis",
         "fansi",
+        "glue",
         "lifecycle",
         "rlang",
         "utf8",
+        "utils",
         "vctrs"
-      ]
+      ],
+      "Hash": "51dfc97e1b7069e9f7e6f83f3589c22e"
     },
     "pkgconfig": {
       "Package": "pkgconfig",
       "Version": "2.0.3",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "01f28d4278f15c76cddbea05899c5d6f",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "utils"
+      ],
+      "Hash": "01f28d4278f15c76cddbea05899c5d6f"
+    },
+    "plyr": {
+      "Package": "plyr",
+      "Version": "1.8.7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "Rcpp"
+      ],
+      "Hash": "9c17c6ee41639ebdc1d7266546d3b627"
     },
     "png": {
       "Package": "png",
-      "Version": "0.1-8",
+      "Version": "0.1-7",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "bd54ba8a0a5faded999a7aab6e46b374",
-      "Requirements": []
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "03b7076c234cb3331288919983326c55"
     },
     "purrr": {
       "Package": "purrr",
       "Version": "0.3.4",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "97def703420c8ab10d8f0e6c72101e02",
+      "Repository": "CRAN",
       "Requirements": [
+        "R",
         "magrittr",
         "rlang"
-      ]
+      ],
+      "Hash": "97def703420c8ab10d8f0e6c72101e02"
     },
     "renv": {
       "Package": "renv",
-      "Version": "0.16.0",
+      "Version": "0.17.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "c9e8442ab69bc21c9697ecf856c1e6c7",
-      "Requirements": []
+      "Requirements": [
+        "utils"
+      ],
+      "Hash": "ce3065fc1a0b64a859f55ac3998d6927"
     },
     "rlang": {
       "Package": "rlang",
-      "Version": "1.0.6",
+      "Version": "1.0.2",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "4ed1f8336c8d52c3e750adcdc57228a7",
-      "Requirements": []
-    },
-    "rstudioapi": {
-      "Package": "rstudioapi",
-      "Version": "0.13",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "06c85365a03fdaf699966cc1d3cf53ea",
-      "Requirements": []
+      "Requirements": [
+        "R",
+        "utils"
+      ],
+      "Hash": "04884d9a75d778aca22c7154b8333ec9"
     },
     "scales": {
       "Package": "scales",
-      "Version": "1.1.1",
+      "Version": "1.2.0",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "6f76f71042411426ec8df6c54f34e6dd",
+      "Repository": "CRAN",
       "Requirements": [
+        "R",
         "R6",
         "RColorBrewer",
         "farver",
         "labeling",
         "lifecycle",
         "munsell",
+        "rlang",
         "viridisLite"
-      ]
+      ],
+      "Hash": "6e8750cdd13477aa440d453da93d5cac"
     },
     "scamp": {
       "Package": "scamp",
@@ -904,115 +1130,107 @@
       "RemoteHost": "api.github.com",
       "RemoteRepo": "scamp",
       "RemoteUsername": "RGLab",
-      "RemoteRef": "HEAD",
+      "RemoteRef": "v0.5.0",
       "RemoteSha": "ef0a40b911c42b9bb5d98969d7e8da0fd9e79224",
-      "Hash": "afed24c6477fb5ac7513b80780b40d56",
       "Requirements": [
+        "R",
         "Rcpp"
-      ]
+      ],
+      "Hash": "7fcbfd248d14e836b9f74201788d9a9f"
     },
     "sitmo": {
       "Package": "sitmo",
       "Version": "2.0.2",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "c956d93f6768a9789edbc13072b70c78",
       "Requirements": [
+        "R",
         "Rcpp"
-      ]
-    },
-    "stringi": {
-      "Package": "stringi",
-      "Version": "1.5.3",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "a063ebea753c92910a4cca7b18bc1f05",
-      "Requirements": []
-    },
-    "stringr": {
-      "Package": "stringr",
-      "Version": "1.4.0",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "0759e6b6c0957edb1311028a49a35e76",
-      "Requirements": [
-        "glue",
-        "magrittr",
-        "stringi"
-      ]
+      ],
+      "Hash": "c956d93f6768a9789edbc13072b70c78"
     },
     "sys": {
       "Package": "sys",
       "Version": "3.4",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "b227d13e29222b4574486cfcbde077fa",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Hash": "b227d13e29222b4574486cfcbde077fa"
     },
     "teRcenHttp": {
       "Package": "teRcenHttp",
       "Version": "1.0.21",
-      "Source": "Repository",
-      "Repository": "TERCEN",
-      "Hash": "18e6c920fb7ddb33ea4e265098ca24c9",
-      "Requirements": []
+      "Source": "unknown",
+      "Hash": "18e6c920fb7ddb33ea4e265098ca24c9"
     },
     "tercen": {
       "Package": "tercen",
-      "Version": "0.13.0",
-      "Source": "Repository",
-      "Repository": "TERCEN",
-      "Hash": "2b99817b3a000b5b4591b5173947a0ac",
+      "Version": "0.12.7",
+      "Source": "GitHub",
+      "Remotes": "tercen/tercenApi@0.12.7",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "teRcen",
+      "RemoteUsername": "tercen",
+      "RemoteRef": "0.12.7",
+      "RemoteSha": "b6872f66ae4de70420c80c834e6e4da076fee2d3",
       "Requirements": [
         "R6",
         "dplyr",
-        "httr",
         "mtercen",
         "openssl",
-        "rstudioapi",
         "teRcenHttp",
         "tercenApi",
         "tibble",
         "uuid",
         "yaml"
-      ]
+      ],
+      "Hash": "8ed69059792b34fb7dd616d4a6a32eda"
     },
     "tercenApi": {
       "Package": "tercenApi",
-      "Version": "0.12.8",
-      "Source": "Repository",
-      "Repository": "TERCEN",
-      "Hash": "e92d54419184d7f403d082988a3c41c3",
+      "Version": "0.12.7",
+      "Source": "GitHub",
+      "Remotes": "tercen/teRcenHttp@1.0.21",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "tercenApi",
+      "RemoteUsername": "tercen",
+      "RemoteRef": "0.12.7",
+      "RemoteSha": "2c42ab2edef2365bd5d654be331a4ac6e93250f0",
       "Requirements": [
         "R6",
         "teRcenHttp",
         "yaml"
-      ]
+      ],
+      "Hash": "cc1559c7c5b4030cca90a3d324e19b9b"
     },
     "tibble": {
       "Package": "tibble",
-      "Version": "3.1.0",
+      "Version": "3.1.7",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "4d894a114dbd4ecafeda5074e7c538e6",
+      "Repository": "CRAN",
       "Requirements": [
+        "R",
         "ellipsis",
         "fansi",
         "lifecycle",
         "magrittr",
+        "methods",
         "pillar",
         "pkgconfig",
         "rlang",
+        "utils",
         "vctrs"
-      ]
+      ],
+      "Hash": "08415af406e3dd75049afef9552e7355"
     },
     "tidyr": {
       "Package": "tidyr",
-      "Version": "1.1.3",
+      "Version": "1.2.0",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "450d7dfaedde58e28586b854eeece4fa",
+      "Repository": "CRAN",
       "Requirements": [
+        "R",
         "cpp11",
         "dplyr",
         "ellipsis",
@@ -1023,143 +1241,165 @@
         "rlang",
         "tibble",
         "tidyselect",
+        "utils",
         "vctrs"
-      ]
+      ],
+      "Hash": "d8b95b7fee945d7da6888cf7eb71a49c"
     },
     "tidyselect": {
       "Package": "tidyselect",
-      "Version": "1.1.0",
+      "Version": "1.1.2",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "6ea435c354e8448819627cf686f66e0a",
+      "Repository": "CRAN",
       "Requirements": [
+        "R",
         "ellipsis",
         "glue",
         "purrr",
         "rlang",
         "vctrs"
-      ]
+      ],
+      "Hash": "17f6da8cfd7002760a859915ce7eef8f"
     },
     "tim": {
       "Package": "tim",
-      "Version": "0.1.0",
-      "Source": "Repository",
-      "Repository": "TERCEN",
-      "Hash": "f3dd11fb357cd05e654f4ef86f700370",
+      "Version": "0.0.13",
+      "Source": "GitHub",
+      "Remotes": "tercen/teRcen@0.12.7",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "tim",
+      "RemoteUsername": "tercen",
+      "RemoteRef": "0.0.13",
+      "RemoteSha": "4b542f1bfa8489c81b0a974d686ccad68159a7e5",
       "Requirements": [
         "base64enc",
-        "jsonlite",
-        "stringi",
-        "stringr",
         "tercen"
-      ]
+      ],
+      "Hash": "fcdbd710a5aff26009983ab8cb633c19"
     },
     "utf8": {
       "Package": "utf8",
-      "Version": "1.2.1",
+      "Version": "1.2.2",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "c3ad47dc6da0751f18ed53c4613e3ac7",
-      "Requirements": []
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "c9c462b759a5cc844ae25b5942654d13"
     },
     "uuid": {
       "Package": "uuid",
       "Version": "1.1-0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "f1cb46c157d080b729159d407be83496",
-      "Requirements": []
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "f1cb46c157d080b729159d407be83496"
     },
     "uwot": {
       "Package": "uwot",
-      "Version": "0.1.14",
+      "Version": "0.1.11",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "c40f4dbc76dd87140045b37a3150a0f1",
       "Requirements": [
         "FNN",
         "Matrix",
+        "RSpectra",
         "Rcpp",
         "RcppAnnoy",
         "RcppProgress",
         "dqrng",
-        "irlba"
-      ]
+        "irlba",
+        "methods"
+      ],
+      "Hash": "f83dba1458cca3b1523e27944edb9da5"
     },
     "vctrs": {
       "Package": "vctrs",
-      "Version": "0.3.7",
+      "Version": "0.4.1",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "5540dc30a203a43a1ce5dc6a89532b3b",
+      "Repository": "CRAN",
       "Requirements": [
-        "ellipsis",
+        "R",
+        "cli",
         "glue",
         "rlang"
-      ]
+      ],
+      "Hash": "8b54f22e2a58c4f275479c92ce041a57"
     },
     "viridis": {
       "Package": "viridis",
       "Version": "0.6.2",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "ee96aee95a7a563e5496f8991e9fde4b",
       "Requirements": [
+        "R",
         "ggplot2",
         "gridExtra",
+        "stats",
         "viridisLite"
-      ]
+      ],
+      "Hash": "ee96aee95a7a563e5496f8991e9fde4b"
     },
     "viridisLite": {
       "Package": "viridisLite",
-      "Version": "0.4.1",
+      "Version": "0.4.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "62f4b5da3e08d8e5bcba6cac15603f70",
-      "Requirements": []
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "55e157e2aa88161bdb0754218470d204"
     },
     "whisker": {
       "Package": "whisker",
       "Version": "0.4",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "ca970b96d894e90397ed20637a0c1bbe",
-      "Requirements": []
+      "Hash": "ca970b96d894e90397ed20637a0c1bbe"
     },
     "withr": {
       "Package": "withr",
       "Version": "2.5.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "c0e49a9760983e81e55cdd9be92e7182",
-      "Requirements": []
+      "Requirements": [
+        "R",
+        "grDevices",
+        "graphics",
+        "stats"
+      ],
+      "Hash": "c0e49a9760983e81e55cdd9be92e7182"
     },
     "xml2": {
       "Package": "xml2",
-      "Version": "1.3.2",
+      "Version": "1.3.3",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "d4d71a75dd3ea9eb5fa28cc21f9585e2",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "methods"
+      ],
+      "Hash": "40682ed6a969ea5abfd351eb67833adc"
     },
     "yaml": {
       "Package": "yaml",
-      "Version": "2.2.1",
+      "Version": "2.3.5",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "2826c5d9efb0a88f657c7a679c7106db",
-      "Requirements": []
+      "Repository": "CRAN",
+      "Hash": "458bb38374d73bf83b1bb85e353da200"
     },
     "zlibbioc": {
       "Package": "zlibbioc",
-      "Version": "1.36.0",
+      "Version": "1.42.0",
       "Source": "Bioconductor",
       "git_url": "https://git.bioconductor.org/packages/zlibbioc",
-      "git_branch": "RELEASE_3_12",
-      "git_last_commit": "62e888c",
-      "git_last_commit_date": "2020-10-27",
-      "Hash": "effcbe90f6986ca6f81ce4d67db7238b",
-      "Requirements": []
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "aa074d7",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "908694d02f7332d0576e7c881e572c5a"
     }
   }
 }
