@@ -4,7 +4,7 @@
     {
       "kind": "ColumnSchema",
       "name": "rowId",
-      "type": "int32"
+      "type": "double"
     }
   ]
 }
