@@ -3,17 +3,17 @@
   "columns": [
     {
       "kind": "ColumnSchema",
-      "name": "ds1.filename",
+      "name": "ds0.filename",
       "type": "string"
     },
     {
       "kind": "ColumnSchema",
-      "name": "ds1.mimetype",
+      "name": "ds0.mimetype",
       "type": "string"
     },
     {
       "kind": "ColumnSchema",
-      "name": "ds1.checksum",
+      "name": "ds0.checksum",
       "type": "string"
     },
     {

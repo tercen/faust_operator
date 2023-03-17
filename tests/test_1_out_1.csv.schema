@@ -3,42 +3,42 @@
   "columns": [
     {
       "kind": "ColumnSchema",
-      "name": "ds1.umap_1",
+      "name": "ds0.umap_1",
       "type": "double"
     },
     {
       "kind": "ColumnSchema",
-      "name": "ds1.umap_2",
+      "name": "ds0.umap_2",
       "type": "double"
     },
     {
       "kind": "ColumnSchema",
-      "name": "ds1.label",
+      "name": "ds0.label",
       "type": "string"
     },
     {
       "kind": "ColumnSchema",
-      "name": "ds1.V3_gate",
+      "name": "ds0.V3_gate",
       "type": "double"
     },
     {
       "kind": "ColumnSchema",
-      "name": "ds1.V2_gate",
+      "name": "ds0.V2_gate",
       "type": "double"
     },
     {
       "kind": "ColumnSchema",
-      "name": "ds1.V4_gate",
+      "name": "ds0.V4_gate",
       "type": "double"
     },
     {
       "kind": "ColumnSchema",
-      "name": "ds1.V5_gate",
+      "name": "ds0.V5_gate",
       "type": "double"
     },
     {
       "kind": "ColumnSchema",
-      "name": "ds1.V1_gate",
+      "name": "ds0.V1_gate",
       "type": "double"
     },
     {
