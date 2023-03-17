@@ -4,7 +4,7 @@
   "tags": ["flow cytometry", "clustering", "dimensionality reduction"],
   "authors": ["tercen"],
   "urls": ["https://github.com/tercen/faust_operator"],
-  "container":"tercen/faust_operator:latest",
+  "container":"tercen/faust_operator:0.1.2",
   "properties": [
     {
     "kind": "DoubleProperty",
