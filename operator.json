@@ -1,6 +1,6 @@
 {
   "name": "FAUST",
-  "description": "FAUST: Full annotation using shape-constrained trees.",
+  "description": "Full annotation using shape-constrained trees, a clustering and phenotyping algorithm for flow cytometry data.",
   "tags": [
     "flow cytometry",
     "clustering",
