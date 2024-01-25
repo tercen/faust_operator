@@ -1,28 +1,36 @@
 {
   "name": "FAUST",
   "description": "FAUST: Full annotation using shape-constrained trees.",
-  "tags": ["flow cytometry", "clustering", "dimensionality reduction"],
-  "authors": ["tercen"],
-  "urls": ["https://github.com/tercen/faust_operator"],
-  "container":"tercen/faust_operator:0.1.2",
+  "tags": [
+    "flow cytometry",
+    "clustering",
+    "dimensionality reduction"
+  ],
+  "authors": [
+    "tercen"
+  ],
+  "urls": [
+    "https://github.com/tercen/faust_operator"
+  ],
+  "container": "tercen/faust_operator:0.1.2",
   "properties": [
     {
-    "kind": "DoubleProperty",
-    "name": "selectionQuantile",
-    "defaultValue": 0.5,
-    "description": "Selection quantile. See FAUST documentation."
+      "kind": "DoubleProperty",
+      "name": "selectionQuantile",
+      "defaultValue": 0.5,
+      "description": "Selection quantile. See FAUST documentation."
     },
     {
-    "kind": "DoubleProperty",
-    "name": "depthScoreThreshold",
-    "defaultValue": 0.01,
-    "description": "Depth score threshold. See FAUST documentation."
+      "kind": "DoubleProperty",
+      "name": "depthScoreThreshold",
+      "defaultValue": 0.01,
+      "description": "Depth score threshold. See FAUST documentation."
     },
     {
-    "kind": "DoubleProperty",
-    "name": "seed",
-    "defaultValue": 123,
-    "description": "Random seed."
+      "kind": "DoubleProperty",
+      "name": "seed",
+      "defaultValue": 123,
+      "description": "Random seed."
     }
   ]
 }
