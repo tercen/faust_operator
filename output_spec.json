@@ -1,24 +1,44 @@
 {
-  "outputSpecs": [{
-    "kind": "OperatorJoinSpec",
-    "description": "FAUST clustering with UMAP coordinates and phenotype gates",
-    "joinOperators": [{
-      "kind": "JoinOperator",
-      "joinType": "left",
-      "leftPair": {
-        "kind": "ColumnPair",
-        "lColumns": ["Clusters"],
-        "rColumns": ["Clusters"]
-      },
-      "rightRelation": {
-        "kind": "TableRelation",
-        "description": "Output includes umap coordinates, label, and dynamic gate columns per marker",
-        "attributes": [
-          {"kind": "Attribute", "name": "umap_1", "type": "double"},
-          {"kind": "Attribute", "name": "umap_2", "type": "double"},
-          {"kind": "Attribute", "name": "label", "type": "string"}
-        ]
-      }
-    }]
-  }]
+  "outputSpecsV2": [
+    {
+      "kind": "OperatorJoinSpec",
+      "description": "FAUST clustering with UMAP coordinates and phenotype gates",
+      "joinOperators": [
+        {
+          "kind": "JoinOperator",
+          "joinType": "left",
+          "leftPair": {
+            "kind": "ColumnPair",
+            "lColumns": [
+              "Clusters"
+            ],
+            "rColumns": [
+              "Clusters"
+            ]
+          },
+          "rightRelation": {
+            "kind": "TableRelation",
+            "description": "Output includes umap coordinates, label, and dynamic gate columns per marker",
+            "attributes": [
+              {
+                "kind": "Attribute",
+                "name": "umap_1",
+                "type": "double"
+              },
+              {
+                "kind": "Attribute",
+                "name": "umap_2",
+                "type": "double"
+              },
+              {
+                "kind": "Attribute",
+                "name": "label",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
 }
