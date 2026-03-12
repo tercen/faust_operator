@@ -69,7 +69,7 @@
               {
                 "kind": "MetaFactor",
                 "name": "Measurement",
-                "type": "numeric",
+                "type": "double",
                 "description": "Value of measurement signal of the channel/marker",
                 "ontologyMapping": "measurement",
                 "crosstabMapping": "y",
