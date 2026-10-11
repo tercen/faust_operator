@@ -16,10 +16,10 @@
 use crate::dip::single_dip;
 use crate::forest::{SearchParams, search};
 use crate::noise::add_noise_to_matrix;
+use crate::select::rstats;
 
 /// R's `scale(x)`: centre by `colMeans`, divide by `sqrt(sum(v^2) / (n - 1))` of the centred
-/// column. R accumulates both sums in `long double`; here a compensated (Neumaier) sum stands
-/// in for it, which rounds to the same double except in pathological ties.
+/// column, both sums accumulated in long double as R does.
 pub fn r_scale(cols: &[Vec<f64>]) -> Vec<Vec<f64>> {
     cols.iter()
         .map(|c| {
@@ -27,28 +27,15 @@ pub fn r_scale(cols: &[Vec<f64>]) -> Vec<Vec<f64>> {
             if n == 0 {
                 return Vec::new();
             }
-            let mean = neumaier_sum(c.iter().copied()) / n as f64;
+            // R's colMeans and sum() accumulate in 80-bit long double: rstats::sum emulates it.
+            let mean = rstats::sum(c) / n as f64;
             let centred: Vec<f64> = c.iter().map(|v| v - mean).collect();
-            let ss = neumaier_sum(centred.iter().map(|v| v * v));
+            let sq: Vec<f64> = centred.iter().map(|v| v * v).collect();
+            let ss = rstats::sum(&sq);
             let sd = (ss / (n.max(2) - 1) as f64).sqrt();
             centred.iter().map(|v| v / sd).collect()
         })
         .collect()
-}
-
-fn neumaier_sum<I: Iterator<Item = f64>>(it: I) -> f64 {
-    let mut sum = 0.0f64;
-    let mut c = 0.0f64;
-    for v in it {
-        let t = sum + v;
-        if sum.abs() >= v.abs() {
-            c += (sum - t) + v;
-        } else {
-            c += (v - t) + sum;
-        }
-        sum = t;
-    }
-    sum + c
 }
 
 /// R `quantile(x, probs, type = 7)` for one probability (as `scamp()` calls it on a scaled
@@ -89,7 +76,7 @@ pub fn thresholds_to_scaled(
             th.iter()
                 .map(|&val| {
                     let prob = r.iter().filter(|&&x| x <= val).count() as f64 / n;
-                    r_quantile7(&sorted, prob)
+                    rstats::quantile7(&sorted, prob)
                 })
                 .collect()
         })
@@ -384,12 +371,44 @@ pub struct ScampResult {
     pub residual_rounds: usize,
 }
 
+/// scamp's `findCandidateClusters` on the single-thread random path: repeat
+/// `candidateClusterSearch` with `seed += 1` until `maximumClusterNum` candidates are
+/// collected. An iteration that finds nothing returns the whole set as one candidate and is
+/// counted as a bad search when the data is larger than `10 * minClusterSize`; too many of
+/// those abort the clustering in the C++ (which then loops forever in `cppNoisyScamp`), so it
+/// is an unreachable case in practice and is left to the caller as an empty candidate list.
+fn random_candidates(
+    data: &[Vec<f64>],
+    restriction: Option<&[Vec<u8>]>,
+    sp: &SearchParams,
+    seed: &mut u64,
+) -> (Vec<Vec<usize>>, usize) {
+    let n = data.first().map_or(0, Vec::len);
+    let pathology_limit = sp.min_cluster_size * 10;
+    let mut cands: Vec<Vec<usize>> = Vec::new();
+    let mut bad = 0usize;
+    while cands.len() < sp.max_clusters {
+        *seed += 1;
+        let r = search(data, restriction, sp, *seed);
+        if r.vacuous && n > pathology_limit {
+            bad += 1;
+            if bad > 9 * (sp.max_clusters / 10) {
+                return (Vec::new(), 0);
+            }
+        }
+        cands.extend(r.candidates);
+    }
+    let n_candidates = cands.len();
+    (cands, n_candidates)
+}
+
 /// `scamp(dataSet = raw selected markers, annForestVals = thresholds, randomSeed = seed, …)`
 /// as FAUST calls it, through `cppNoisyScamp` with one iteration.
 pub fn run_scamp(
     raw: &[Vec<f64>],
     names: &[String],
     thresholds: &[Vec<f64>],
+    restriction: Option<&[Vec<u8>]>,
     params: &ScampParams,
 ) -> ScampResult {
     let n_cols = raw.len();
@@ -397,11 +416,12 @@ pub fn run_scamp(
     let scaled = r_scale(raw);
     let ann_gates = thresholds_to_scaled(raw, &scaled, thresholds);
     let sp = SearchParams::scamp(n_cols);
-    // scamp(): noise, then findCandidateClusters with the post-noise seed (+1 inside).
-    let (noised, seed_after) = add_noise_to_matrix(&scaled, params.gaussian_scale, params.seed);
-    let res = search(&noised, &sp, seed_after.wrapping_add(1));
-    let n_candidates = res.candidates.len();
-    let mut clustering = select_candidate_clusters(&res.candidates, &noised);
+    // scamp(): noise, then the iterated random search; the seed keeps advancing through the
+    // noise, every search iteration and every residual round (`randomSeed` is passed by
+    // reference all the way down).
+    let (noised, mut cur_seed) = add_noise_to_matrix(&scaled, params.gaussian_scale, params.seed);
+    let (cands, n_candidates) = random_candidates(&noised, restriction, &sp, &mut cur_seed);
+    let mut clustering = select_candidate_clusters(&cands, &noised);
     let mut c_max = clustering.iter().copied().max().unwrap_or(0);
     let mut residual_rounds = 0;
     loop {
@@ -421,12 +441,16 @@ pub fn run_scamp(
             break;
         }
         residual_rounds += 1;
-        // The C++ reuses `randomSeed` as left by the first call (single thread: unchanged).
-        let rres = search(&subset, &sp, seed_after.wrapping_add(1));
+        let res_subset: Option<Vec<Vec<u8>>> = restriction.map(|r| {
+            (0..n_cols)
+                .map(|j| zero_index.iter().map(|&i| r[j][i]).collect())
+                .collect()
+        });
+        let (rcands, _) = random_candidates(&subset, res_subset.as_deref(), &sp, &mut cur_seed);
         // The C++ hands the scorer the FULL noised matrix while the candidates' indices are
         // positions in the subset, so the scores are computed on the wrong cells (the first
         // |subset| rows of every column). Reproduced as is: it is what the reference does.
-        let rclust = select_candidate_clusters(&rres.candidates, &noised);
+        let rclust = select_candidate_clusters(&rcands, &noised);
         for (k, &c) in rclust.iter().enumerate() {
             if c > 0 {
                 clustering[zero_index[k]] = c + c_max;

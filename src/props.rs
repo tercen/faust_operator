@@ -54,7 +54,9 @@ pub fn read(ctx: &ContextBase) -> Result<Settings> {
     }
     let depth_score_threshold = num("depthScoreThreshold", d.depth_score_threshold)?;
     if !(0.0..=1.0).contains(&depth_score_threshold) {
-        bail!("property 'depthScoreThreshold' must be between 0 and 1, got {depth_score_threshold}");
+        bail!(
+            "property 'depthScoreThreshold' must be between 0 and 1, got {depth_score_threshold}"
+        );
     }
     let seed = num("seed", d.seed as f64)?;
     if !(1.0..=4_294_967_295.0).contains(&seed) {
@@ -94,8 +96,14 @@ mod tests {
                 .unwrap_or_else(|| panic!("property '{n}' is not declared in operator.json"))
         };
         let d = Settings::default();
-        assert_eq!(by_name("selectionQuantile")["defaultValue"], d.selection_quantile);
-        assert_eq!(by_name("depthScoreThreshold")["defaultValue"], d.depth_score_threshold);
+        assert_eq!(
+            by_name("selectionQuantile")["defaultValue"],
+            d.selection_quantile
+        );
+        assert_eq!(
+            by_name("depthScoreThreshold")["defaultValue"],
+            d.depth_score_threshold
+        );
         assert_eq!(by_name("seed")["defaultValue"], d.seed as f64);
         assert_eq!(by_name("sample_factor")["defaultValue"], "");
         assert_eq!(by_name("threads")["defaultValue"], 0.0);

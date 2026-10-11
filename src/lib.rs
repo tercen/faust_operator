@@ -145,7 +145,10 @@ async fn execute(ctx: &ContextBase, mode: Mode) -> Result<()> {
         }
     }
 
-    rep.at(progress::FIT.0, format!("FAUST: {n_samples} samples x {p} markers"));
+    rep.at(
+        progress::FIT.0,
+        format!("FAUST: {n_samples} samples x {p} markers"),
+    );
     let settings = FaustSettings {
         selection_quantile: s.selection_quantile,
         depth_score_threshold: s.depth_score_threshold,
@@ -170,14 +173,18 @@ async fn execute(ctx: &ContextBase, mode: Mode) -> Result<()> {
     ));
 
     // ---- annotation embedding
-    rep.at(progress::band(progress::FIT, 3, 4), "Annotation embedding (UMAP)");
+    rep.at(
+        progress::band(progress::FIT, 3, 4),
+        "Annotation embedding (UMAP)",
+    );
     let embed_samples: Vec<faust::embed::EmbedSample> = (0..n_samples)
         .map(|g| faust::embed::EmbedSample {
             exprs: &run.selected_exprs[g],
             ann: &run.ann[g],
         })
         .collect();
-    let prepared = faust::embed::prepare(&embed_samples, &run.levels, &run.score_mat, s.seed as u64);
+    let prepared =
+        faust::embed::prepare(&embed_samples, &run.levels, &run.score_mat, s.seed as u64);
     let em = &prepared.embedding_markers;
     let (x, y) = if em.is_empty() || n_cells <= 15 {
         rep.info("too few markers or cells for the embedding; umap_1/umap_2 are NaN".to_string());

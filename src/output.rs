@@ -108,21 +108,56 @@ pub fn write_result<W: Write>(
     .collect();
     table_header(w, table_name, n, names.len())?;
     let mut k = 0;
-    column_header(w, &ColSpec { name: &names[k], ty: "double" }, n)?;
+    column_header(
+        w,
+        &ColSpec {
+            name: &names[k],
+            ty: "double",
+        },
+        n,
+    )?;
     w.f64_list(cells.umap_1)?;
     k += 1;
-    column_header(w, &ColSpec { name: &names[k], ty: "double" }, n)?;
+    column_header(
+        w,
+        &ColSpec {
+            name: &names[k],
+            ty: "double",
+        },
+        n,
+    )?;
     w.f64_list(cells.umap_2)?;
     k += 1;
-    column_header(w, &ColSpec { name: &names[k], ty: "string" }, n)?;
+    column_header(
+        w,
+        &ColSpec {
+            name: &names[k],
+            ty: "string",
+        },
+        n,
+    )?;
     w.str_list(cells.labels)?;
     k += 1;
     for (_, g) in cells.gates {
-        column_header(w, &ColSpec { name: &names[k], ty: "double" }, n)?;
+        column_header(
+            w,
+            &ColSpec {
+                name: &names[k],
+                ty: "double",
+            },
+            n,
+        )?;
         w.f64_list(g)?;
         k += 1;
     }
-    column_header(w, &ColSpec { name: &names[k], ty: "int32" }, n)?;
+    column_header(
+        w,
+        &ColSpec {
+            name: &names[k],
+            ty: "int32",
+        },
+        n,
+    )?;
     w.i32_list(&(0..n as i32).collect::<Vec<_>>())?;
 
     // ---- table 2: histograms
@@ -135,14 +170,47 @@ pub fn write_result<W: Write>(
             ".content".to_string(),
         ];
         table_header(w, &format!("{table_name}_png"), np, 4)?;
-        column_header(w, &ColSpec { name: &pnames[0], ty: "string" }, np)?;
+        column_header(
+            w,
+            &ColSpec {
+                name: &pnames[0],
+                ty: "string",
+            },
+            np,
+        )?;
         w.str_list(&pngs.iter().map(|p| p.filename.as_str()).collect::<Vec<_>>())?;
-        column_header(w, &ColSpec { name: &pnames[1], ty: "string" }, np)?;
+        column_header(
+            w,
+            &ColSpec {
+                name: &pnames[1],
+                ty: "string",
+            },
+            np,
+        )?;
         w.str_list(&vec!["image/png"; np])?;
-        column_header(w, &ColSpec { name: &pnames[2], ty: "string" }, np)?;
+        column_header(
+            w,
+            &ColSpec {
+                name: &pnames[2],
+                ty: "string",
+            },
+            np,
+        )?;
         w.str_list(&pngs.iter().map(|p| p.checksum.as_str()).collect::<Vec<_>>())?;
-        column_header(w, &ColSpec { name: &pnames[3], ty: "string" }, np)?;
-        w.str_list(&pngs.iter().map(|p| p.content_base64.as_str()).collect::<Vec<_>>())?;
+        column_header(
+            w,
+            &ColSpec {
+                name: &pnames[3],
+                ty: "string",
+            },
+            np,
+        )?;
+        w.str_list(
+            &pngs
+                .iter()
+                .map(|p| p.content_base64.as_str())
+                .collect::<Vec<_>>(),
+        )?;
     }
 
     // ---- joins: the per-cell table joins by .ci (implicit); the png table on nothing.
@@ -222,7 +290,13 @@ mod tests {
             .collect();
         assert_eq!(
             names,
-            ["ds0.umap_1", "ds0.umap_2", "ds0.label", "ds0.CD3_gate", ".ci"]
+            [
+                "ds0.umap_1",
+                "ds0.umap_2",
+                "ds0.label",
+                "ds0.CD3_gate",
+                ".ci"
+            ]
         );
     }
 }

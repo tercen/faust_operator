@@ -33,7 +33,7 @@ fn main() {
     }
     let params = SearchParams::annotation_forest(3);
     let t = Instant::now();
-    let gates = grow_annotation_forest(&cols, &params, forest_seed(123), 4.0, 2);
+    let gates = grow_annotation_forest(&cols, None, &params, forest_seed(123), 4.0, 2);
     let peak = std::fs::read_to_string("/proc/self/status")
         .ok()
         .and_then(|s| {

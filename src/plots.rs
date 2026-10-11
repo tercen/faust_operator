@@ -97,7 +97,11 @@ pub fn marker_histograms(run: &FaustRun, names: &[String], seed: u64) -> Result<
         s.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
         let lo = faust::scamp::r_quantile7(&s, 0.01);
         let hi = faust::scamp::r_quantile7(&s, 0.99);
-        let hist: Vec<f64> = values.iter().copied().filter(|v| *v >= lo && *v <= hi).collect();
+        let hist: Vec<f64> = values
+            .iter()
+            .copied()
+            .filter(|v| *v >= lo && *v <= hi)
+            .collect();
         if hist.len() < 2 {
             continue;
         }
@@ -155,7 +159,10 @@ fn draw(title: &str, counts: &[u32], xmin: f64, bw: f64, gates: &[f64]) -> Resul
         chart
             .draw_series(counts.iter().enumerate().map(|(i, &c)| {
                 let x0 = xmin + bw * i as f64;
-                Rectangle::new([(x0, 0.0), (x0 + bw, c as f64)], RGBColor(89, 89, 89).filled())
+                Rectangle::new(
+                    [(x0, 0.0), (x0 + bw, c as f64)],
+                    RGBColor(89, 89, 89).filled(),
+                )
             }))
             .map_err(|e| anyhow!("{e}"))?;
         for &g in gates {

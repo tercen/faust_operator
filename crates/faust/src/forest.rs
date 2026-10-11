@@ -145,24 +145,36 @@ fn subset_hash(base_index: &[u32]) -> u64 {
 
 /// Sorted active values of one column: walk the global order when the node is large,
 /// sort the subset when it is small (the walk is O(n), the sort O(m log m)).
-fn sorted_subset(col: &Column, rows: &[bool], base_index: &[u32], out: &mut Vec<f64>) {
+fn sorted_subset(
+    col: &Column,
+    res: Option<&[u8]>,
+    rows: &[bool],
+    base_index: &[u32],
+    out: &mut Vec<f64>,
+) {
     out.clear();
     let m = base_index.len();
     let n = col.values.len();
     if m == 0 {
         return;
     }
+    let free = |i: usize| res.is_none_or(|r| r[i] == 0);
     let walk_cost = n as f64;
     let sort_cost = m as f64 * (m as f64).log2().max(1.0) * 2.0;
     if walk_cost <= sort_cost {
         out.extend(
             col.order
                 .iter()
-                .filter(|&&i| rows[i as usize])
+                .filter(|&&i| rows[i as usize] && free(i as usize))
                 .map(|&i| col.values[i as usize]),
         );
     } else {
-        out.extend(base_index.iter().map(|&i| col.values[i as usize]));
+        out.extend(
+            base_index
+                .iter()
+                .filter(|&&i| free(i as usize))
+                .map(|&i| col.values[i as usize]),
+        );
         out.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
     }
 }
@@ -197,8 +209,17 @@ fn cut_points_for_column(
 
 /// `candidateClusterSearch` on noised, column-major data, seeded like the C++ (`std::mt19937
 /// mtRCCS(rndSeed)`).
+/// `res` is the restriction matrix (`resValMatrix`, column-major: 0 free, 1 low, 2 high) when
+/// `anyValueRestricted`; restricted cells are left out of the one-dimensional densities and
+/// of the node sizes, and a gate's outer cut points open up to the node's min/max on a column
+/// that has restricted cells on that side (`restrictedStackUpdate`).
 #[allow(clippy::needless_range_loop)]
-pub fn search(cols: &[Vec<f64>], params: &SearchParams, rnd_seed: u64) -> SearchResults {
+pub fn search(
+    cols: &[Vec<f64>],
+    res: Option<&[Vec<u8>]>,
+    params: &SearchParams,
+    rnd_seed: u64,
+) -> SearchResults {
     let n_cols = cols.len();
     let n_rows = cols.first().map_or(0, Vec::len);
     let columns: Vec<Column> = cols
@@ -228,6 +249,9 @@ pub fn search(cols: &[Vec<f64>], params: &SearchParams, rnd_seed: u64) -> Search
     let mut base_index: Vec<u32> = Vec::with_capacity(n_rows);
     let mut sorted = vec![Vec::<f64>::new(); n_cols];
     let mut sorted_hash = vec![0u64; n_cols];
+    let mut unres_count = vec![0usize; n_cols];
+    let mut low_res = vec![false; n_cols];
+    let mut high_res = vec![false; n_cols];
 
     loop {
         if first {
@@ -252,10 +276,45 @@ pub fn search(cols: &[Vec<f64>], params: &SearchParams, rnd_seed: u64) -> Search
             continue;
         }
         let h = subset_hash(&base_index);
-        // Sorted active values of every column (the C++ builds them for all columns).
+        // Restricted search: a column with fewer than minClusterSize unrestricted cells in
+        // this node is no longer viable (the C++ also computes rColCtr and then tests
+        // `rColCtr = 0`, an assignment, so it never skips the node on that account).
+        if let Some(res) = res {
+            for j in 0..n_cols {
+                if node.cols[j] {
+                    let n_free = base_index
+                        .iter()
+                        .filter(|&&k| res[j][k as usize] == 0)
+                        .count();
+                    if n_free < params.min_cluster_size {
+                        node.cols[j] = false;
+                    }
+                }
+            }
+        }
+        // Sorted admissible (unrestricted) values of every column (the C++ builds them for all
+        // columns), the unrestricted counts and the restriction flags of the node.
         for (j, col) in columns.iter().enumerate() {
-            sorted_subset(col, &node.rows, &base_index, &mut sorted[j]);
+            sorted_subset(
+                col,
+                res.map(|r| r[j].as_slice()),
+                &node.rows,
+                &base_index,
+                &mut sorted[j],
+            );
             sorted_hash[j] = h;
+            unres_count[j] = sorted[j].len();
+            low_res[j] = false;
+            high_res[j] = false;
+            if let Some(r) = res {
+                for &k in &base_index {
+                    match r[j][k as usize] {
+                        1 => low_res[j] = true,
+                        2 => high_res[j] = true,
+                        _ => {}
+                    }
+                }
+            }
         }
         // getViableColumns
         let mut viable: Vec<usize> = Vec::new();
@@ -323,13 +382,34 @@ pub fn search(cols: &[Vec<f64>], params: &SearchParams, rnd_seed: u64) -> Search
                     cut_points: cut_points.clone(),
                     depth: node_depth,
                     path_score: node.path_score,
-                    pop_size: base_index.len(),
+                    pop_size: unres_count[col],
                 });
                 let child_path_score = node.path_score * (1.0 - viable_scores[i]);
                 let values = columns[col].values;
-                for j in 1..cut_points.len() {
-                    let gate_low = cut_points[j - 1];
-                    let gate_high = cut_points[j];
+                // restrictedStackUpdate: the outer gates open to the node's full min/max on a
+                // column with restricted cells on that side.
+                let (full_min, full_max) = if low_res[col] || high_res[col] {
+                    base_index
+                        .iter()
+                        .fold((f64::INFINITY, f64::NEG_INFINITY), |(lo, hi), &k| {
+                            let v = values[k as usize];
+                            (lo.min(v), hi.max(v))
+                        })
+                } else {
+                    (0.0, 0.0)
+                };
+                let n_cp = cut_points.len();
+                for j in 1..n_cp {
+                    let gate_low = if j == 1 && low_res[col] {
+                        full_min
+                    } else {
+                        cut_points[j - 1]
+                    };
+                    let gate_high = if j == n_cp - 1 && high_res[col] {
+                        full_max
+                    } else {
+                        cut_points[j]
+                    };
                     let mut r_rows = node.rows.clone();
                     for &k in &base_index {
                         let v = values[k as usize];
@@ -353,11 +433,18 @@ pub fn search(cols: &[Vec<f64>], params: &SearchParams, rnd_seed: u64) -> Search
             break;
         }
     }
-    if results.gates.is_empty() {
-        // The C++ records one "null" gate {0, 0, {0,0}, 0} and one cluster of every row; the
-        // null gate is filtered out of gateData by its (unsigned) `numGates - 2`.
+    // FAUST's forest: a search without a single gate; scamp's: a search without a single
+    // candidate. Both record one cluster of every row (and a "null" gate {0,0,{0,0},0} that the
+    // gateData assembly drops by its unsigned `numGates - 2`), and scamp flags the iteration
+    // as vacuous (`abortIteration`) when the search was random or restricted.
+    let vacuous = if params.annotation_forest {
+        results.gates.is_empty()
+    } else {
+        results.candidates.is_empty()
+    };
+    if vacuous {
         results.candidates.push((0..n_rows).collect());
-        results.vacuous = params.random_search;
+        results.vacuous = params.random_search || res.is_some();
     }
     let _ = &mut memo;
     results
@@ -370,13 +457,14 @@ pub fn search(cols: &[Vec<f64>], params: &SearchParams, rnd_seed: u64) -> Search
 /// `currentRandomSeed` (the search is seeded with it + 1).
 pub fn grow_annotation_forest(
     cols: &[Vec<f64>],
+    restriction: Option<&[Vec<u8>]>,
     params: &SearchParams,
     seed: u64,
     gaussian_scale: f64,
     cut_point_upper_bound: usize,
 ) -> Vec<Gate> {
     let (noised, seed_after) = add_noise_to_matrix(cols, gaussian_scale, seed);
-    let res = search(&noised, params, seed_after.wrapping_add(1));
+    let res = search(&noised, restriction, params, seed_after.wrapping_add(1));
     let num_gate_ub = cut_point_upper_bound + 2;
     res.gates
         .into_iter()
