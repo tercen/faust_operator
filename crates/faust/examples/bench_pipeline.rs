@@ -41,8 +41,8 @@ fn main() {
                             let comp = ((u * modes as f64) as usize).min(modes - 1);
                             let u1 = unif().max(f64::MIN_POSITIVE);
                             let u2 = unif();
-                            let z = (-2.0 * u1.ln()).sqrt()
-                                * (2.0 * std::f64::consts::PI * u2).cos();
+                            let z =
+                                (-2.0 * u1.ln()).sqrt() * (2.0 * std::f64::consts::PI * u2).cos();
                             comp as f64 * 2.5 + s as f64 * 0.1 + 0.45 * z
                         })
                         .collect()
@@ -63,7 +63,11 @@ fn main() {
     let t = Instant::now();
     let mut last = Instant::now();
     let run = run_faust(&samples, &markers, &settings, &mut |m| {
-        eprintln!("[{:7.1}s +{:6.1}s] {m}", t.elapsed().as_secs_f64(), last.elapsed().as_secs_f64());
+        eprintln!(
+            "[{:7.1}s +{:6.1}s] {m}",
+            t.elapsed().as_secs_f64(),
+            last.elapsed().as_secs_f64()
+        );
         last = Instant::now();
     })
     .unwrap();

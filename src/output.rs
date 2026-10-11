@@ -18,7 +18,6 @@ pub struct ColSpec<'a> {
     pub ty: &'a str, // "double" | "int32" | "string"
 }
 
-
 fn table_header<W: Write>(
     w: &mut TsonWriter<W>,
     table_name: &str,
