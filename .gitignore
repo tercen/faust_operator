@@ -1,5 +1,4 @@
+target/
+*.token
 .Rproj.user
 .Rhistory
-.RData
-.Ruserdata
-.idea

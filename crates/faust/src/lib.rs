@@ -24,6 +24,7 @@ pub mod dip;
 pub mod embed;
 pub mod forest;
 pub mod noise;
+pub mod pipeline;
 pub mod rng;
 pub mod rrng;
 pub mod scamp;
