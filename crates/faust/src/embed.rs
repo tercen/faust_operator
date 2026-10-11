@@ -127,7 +127,9 @@ pub fn prepare(
         .map(|c| c.windows(2).map(|w| (w[0] + w[1]) / 2.0).collect())
         .collect();
     // quantile weights from the raw score sums
-    let raw_sums: Vec<f64> = (0..p).map(|j| score_mat.iter().map(|r| r[j]).sum()).collect();
+    let raw_sums: Vec<f64> = (0..p)
+        .map(|j| score_mat.iter().map(|r| r[j]).sum())
+        .collect();
     let total: f64 = raw_sums.iter().sum();
     let mut q_low = vec![0.0; p];
     let mut acc = 0.0;
@@ -144,7 +146,11 @@ pub fn prepare(
     for s in samples {
         let n = s.ann.len();
         // winsorised expression per marker (column-major)
-        let wins: Vec<Vec<f64>> = s.exprs.iter().map(|c| winsorize_for_embed(c, &mut rng)).collect();
+        let wins: Vec<Vec<f64>> = s
+            .exprs
+            .iter()
+            .map(|c| winsorize_for_embed(c, &mut rng))
+            .collect();
         // phenotype key per cell
         let keys: Vec<Vec<u8>> = s.ann.to_vec();
         let mut uniq: Vec<Vec<u8>> = Vec::new();
@@ -156,7 +162,8 @@ pub fn prepare(
         // standardise inside each phenotype; record per (marker, level) the cluster mins/maxs
         let mut scaled = vec![vec![0.0f64; p]; n];
         let mut rec_low: Vec<Vec<Vec<f64>>> = levels.iter().map(|&k| vec![Vec::new(); k]).collect();
-        let mut rec_high: Vec<Vec<Vec<f64>>> = levels.iter().map(|&k| vec![Vec::new(); k]).collect();
+        let mut rec_high: Vec<Vec<Vec<f64>>> =
+            levels.iter().map(|&k| vec![Vec::new(); k]).collect();
         for u in &uniq {
             let idx: Vec<usize> = (0..n).filter(|&i| keys[i] == *u).collect();
             for j in 0..p {

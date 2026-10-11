@@ -169,7 +169,11 @@ fn sorted_subset(col: &Column, rows: &[bool], base_index: &[u32], out: &mut Vec<
 
 /// `getCutPointsForViableColumn`: the C++ decides the mode prior from the dip tests only for
 /// small nodes (≤ 500 cells), then asks the taut string for the gates.
-fn cut_points_for_column(sorted: &[f64], dip_threshold: f64, sub_sample_threshold: usize) -> Vec<f64> {
+fn cut_points_for_column(
+    sorted: &[f64],
+    dip_threshold: f64,
+    sub_sample_threshold: usize,
+) -> Vec<f64> {
     let mut mode_est = 0usize;
     if sorted.len() <= 500 {
         let dd = double_dip(sorted);
@@ -193,6 +197,7 @@ fn cut_points_for_column(sorted: &[f64], dip_threshold: f64, sub_sample_threshol
 
 /// `candidateClusterSearch` on noised, column-major data, seeded like the C++ (`std::mt19937
 /// mtRCCS(rndSeed)`).
+#[allow(clippy::needless_range_loop)]
 pub fn search(cols: &[Vec<f64>], params: &SearchParams, rnd_seed: u64) -> SearchResults {
     let n_cols = cols.len();
     let n_rows = cols.first().map_or(0, Vec::len);

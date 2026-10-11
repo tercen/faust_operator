@@ -144,7 +144,8 @@ pub fn abs_sample_lmoments(sorted: &[f64], num_moments: usize, trim: usize) -> V
         poly1.clone_from(&poly);
         let jf = j as f64;
         for i in 0..num_obs {
-            poly[i] = ((2.0 * jf - 3.0) * mesh[i] * poly1[i] - (jf - 2.0) * (n + jf - 2.0) * poly2[i])
+            poly[i] = ((2.0 * jf - 3.0) * mesh[i] * poly1[i]
+                - (jf - 2.0) * (n + jf - 2.0) * poly2[i])
                 / ((jf - 1.0) * (n - jf + 1.0));
             tmp[i] = poly[i] * sorted[i];
         }
@@ -348,7 +349,11 @@ pub fn num_label(scored: &[(usize, usize)], names: &[String]) -> String {
             s.push_str(&format!("{}~AnnotationError~", names[j]));
         }
     }
-    if s.is_empty() { "Uncertain".to_string() } else { s }
+    if s.is_empty() {
+        "Uncertain".to_string()
+    } else {
+        s
+    }
 }
 
 #[derive(Debug, Clone)]

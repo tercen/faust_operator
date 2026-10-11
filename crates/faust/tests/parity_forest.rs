@@ -17,7 +17,12 @@ fn fixtures() -> PathBuf {
 fn read_matrix(name: &str) -> (Vec<String>, Vec<Vec<f64>>) {
     let text = std::fs::read_to_string(fixtures().join(name)).unwrap();
     let mut lines = text.lines();
-    let header: Vec<String> = lines.next().unwrap().split(',').map(|s| s.to_string()).collect();
+    let header: Vec<String> = lines
+        .next()
+        .unwrap()
+        .split(',')
+        .map(|s| s.to_string())
+        .collect();
     let mut cols: Vec<Vec<f64>> = vec![Vec::new(); header.len()];
     for l in lines {
         if l.trim().is_empty() {
@@ -35,7 +40,11 @@ fn read_vec(path: PathBuf) -> Vec<f64> {
         Ok(t) => t
             .lines()
             .filter(|l| !l.trim().is_empty())
-            .map(|l| l.trim().parse().unwrap_or_else(|_| panic!("{}: {l}", path.display())))
+            .map(|l| {
+                l.trim()
+                    .parse()
+                    .unwrap_or_else(|_| panic!("{}: {l}", path.display()))
+            })
             .collect(),
         Err(_) => Vec::new(),
     }
