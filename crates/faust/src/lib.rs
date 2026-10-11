@@ -25,6 +25,7 @@ pub mod embed;
 pub mod forest;
 pub mod noise;
 pub mod rng;
+pub mod rrng;
 pub mod scamp;
 pub mod select;
 pub mod tsgates;

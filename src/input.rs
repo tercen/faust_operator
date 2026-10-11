@@ -1,6 +1,6 @@
 //! Reading the crosstab.
 //!
-//! The projection follows the R `umap_operator`: rows are the channels, columns are the
+//! The projection follows the R `faust_operator`: rows are the channels, columns are the
 //! cells, y is the value. Clustering needs each **cell's** vector across channels, which is the
 //! transpose of how the crosstab arrives, so the reader here gathers a column at a time rather
 //! than a row at a time — see `lib.rs` for how that is bounded.

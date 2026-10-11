@@ -4,7 +4,7 @@ use anyhow::Result;
 
 #[global_allocator]
 static GLOBAL: tikv_jemallocator::Jemalloc = tikv_jemallocator::Jemalloc;
-use umap_operator::{init_tracing, require_env, run_dev};
+use faust_operator::{init_tracing, require_env, run_dev};
 
 #[tokio::main]
 async fn main() -> Result<()> {

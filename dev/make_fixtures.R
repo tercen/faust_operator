@@ -4,6 +4,7 @@
 ## 2-sample set (20k cells x 8 markers) with bimodal/trimodal markers.
 suppressPackageStartupMessages({library(faust); library(scamp); library(flowCore); library(flowWorkspace)})
 out <- commandArgs(trailingOnly = TRUE)[1]
+mode <- commandArgs(trailingOnly = TRUE)[2]; if (is.na(mode)) mode <- "all"
 dir.create(out, recursive = TRUE, showWarnings = FALSE)
 g17 <- function(x) sprintf("%.17g", x)
 wvec <- function(x, name) writeLines(if (is.numeric(x)) g17(x) else as.character(x), file.path(out, name))
@@ -23,13 +24,16 @@ dumpObj <- function(x, path) {
   } else if (is.matrix(x) || is.data.frame(x)) {
     m <- as.matrix(x); if (is.null(colnames(m))) colnames(m) <- sprintf("c%d", seq_len(ncol(m)))
     if (is.null(rownames(m))) rownames(m) <- sprintf("r%d", seq_len(nrow(m)))
+    dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
     con <- file(paste0(path, ".csv"), "w")
     writeLines(paste(c("rowname", colnames(m)), collapse = ","), con)
     for (i in seq_len(nrow(m))) writeLines(paste(c(rownames(m)[i], if (is.numeric(m)) g17(m[i, ]) else as.character(m[i, ])), collapse = ","), con)
     close(con)
   } else if (is.null(x)) {
+    dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
     writeLines("NULL", paste0(path, ".txt"))
   } else {
+    dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
     con <- file(paste0(path, ".txt"), "w")
     if (!is.null(names(x))) writeLines(paste(names(x), collapse = ","), con)
     writeLines(if (is.numeric(x)) g17(x) else as.character(x), con)
@@ -86,7 +90,7 @@ prim <- function(m, tag) {
     }
   }
 }
-prim(m1, "test1"); prim(s1, "syn1")
+if (mode == "all") { prim(m1, "test1"); prim(s1, "syn1") }
 cat("primitives done\n")
 
 ## ---------- annotation forest (phase 1 core), operator parameters ----------
@@ -104,7 +108,7 @@ forest <- function(m, tag) {
   pAnnF <- faust:::.parseAnnotationForest(af[["gateData"]], eSizes)
   dumpObj(pAnnF, file.path(out, sprintf("%s_forest_parsed", tag)))
 }
-forest(m1, "test1"); forest(s1, "syn1"); forest(s2, "syn2")
+if (mode == "all") { forest(m1, "test1"); forest(s1, "syn1"); forest(s2, "syn2") }
 cat("forests done\n")
 
 ## ---------- full faust() runs: labels and thresholds ----------
