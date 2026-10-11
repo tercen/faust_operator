@@ -4,9 +4,9 @@
 //! per selected marker — the R operator's columns, with the same types (the gates are doubles
 //! there and stay doubles so a workflow built on 0.x keeps working).
 //!
-//! Table 2 (optional): the diagnostic histograms, one row per PNG, `filename`, `mimetype`,
-//! `checksum`, `.content` (base64) — the shape `tim::plot_file_to_df` gives. It is joined on
-//! nothing, as the R operator does with `left_join_relation(join_png, list(), list())`.
+//! The R operator's third table (the threshold histograms as PNGs, joined on nothing) is not
+//! produced: an empty-key join is a cross join against the crosstab, and the platform dropped
+//! the main table when the result declared one.
 use std::io::Write;
 
 use anyhow::{Result, anyhow};
@@ -18,11 +18,6 @@ pub struct ColSpec<'a> {
     pub ty: &'a str, // "double" | "int32" | "string"
 }
 
-pub struct Png {
-    pub filename: String,
-    pub checksum: String,
-    pub content_base64: String,
-}
 
 fn table_header<W: Write>(
     w: &mut TsonWriter<W>,
@@ -85,16 +80,14 @@ pub fn write_result<W: Write>(
     w: &mut TsonWriter<W>,
     table_name: &str,
     cells: &CellTable,
-    pngs: &[Png],
 ) -> Result<()> {
     let n = cells.umap_1.len();
     let ns = cells.namespace;
-    let n_tables = if pngs.is_empty() { 1 } else { 2 };
     w.map(3)?;
     w.key("kind")?;
     w.str("OperatorResult")?;
     w.key("tables")?;
-    w.list(n_tables)?;
+    w.list(1)?;
 
     // ---- table 1: cells
     let names: Vec<String> = [
@@ -160,90 +153,11 @@ pub fn write_result<W: Write>(
     )?;
     w.i32_list(&(0..n as i32).collect::<Vec<_>>())?;
 
-    // ---- table 2: histograms
-    if !pngs.is_empty() {
-        let np = pngs.len();
-        let pnames = [
-            format!("{ns}.filename"),
-            format!("{ns}.mimetype"),
-            format!("{ns}.checksum"),
-            ".content".to_string(),
-        ];
-        table_header(w, &format!("{table_name}_png"), np, 4)?;
-        column_header(
-            w,
-            &ColSpec {
-                name: &pnames[0],
-                ty: "string",
-            },
-            np,
-        )?;
-        w.str_list(&pngs.iter().map(|p| p.filename.as_str()).collect::<Vec<_>>())?;
-        column_header(
-            w,
-            &ColSpec {
-                name: &pnames[1],
-                ty: "string",
-            },
-            np,
-        )?;
-        w.str_list(&vec!["image/png"; np])?;
-        column_header(
-            w,
-            &ColSpec {
-                name: &pnames[2],
-                ty: "string",
-            },
-            np,
-        )?;
-        w.str_list(&pngs.iter().map(|p| p.checksum.as_str()).collect::<Vec<_>>())?;
-        column_header(
-            w,
-            &ColSpec {
-                name: &pnames[3],
-                ty: "string",
-            },
-            np,
-        )?;
-        w.str_list(
-            &pngs
-                .iter()
-                .map(|p| p.content_base64.as_str())
-                .collect::<Vec<_>>(),
-        )?;
-    }
-
-    // ---- joins: the per-cell table joins by .ci (implicit); the png table on nothing.
+    // One relation only, keyed by .ci: no joinOperators (a second table joined on nothing is
+    // a cross join against the crosstab, and the platform did not persist the main table when
+    // one was declared).
     w.key("joinOperators")?;
-    if pngs.is_empty() {
-        w.list(0)?;
-    } else {
-        w.list(1)?;
-        w.map(4)?;
-        w.key("kind")?;
-        w.str("JoinOperator")?;
-        w.key("leftPair")?;
-        w.map(3)?;
-        w.key("kind")?;
-        w.str("ColumnPair")?;
-        w.key("lColumns")?;
-        w.list(0)?;
-        w.key("rColumns")?;
-        w.list(0)?;
-        w.key("rightRelation")?;
-        // The platform resolves a result-side SimpleRelation by the TABLE NAME in `id`
-        // (read_fcs does the same); an empty id is looked up as a schema and fails with
-        // `Schema.list.not.found`.
-        w.map(3)?;
-        w.key("kind")?;
-        w.str("SimpleRelation")?;
-        w.key("id")?;
-        w.str(&format!("{table_name}_png"))?;
-        w.key("index")?;
-        w.i32(0)?;
-        w.key("joinType")?;
-        w.str("left")?;
-    }
+    w.list(0)?;
     w.flush()?;
     Ok(())
 }
@@ -266,7 +180,6 @@ mod tests {
                 labels: &["CD3+".to_string(), "CD3-".to_string()],
                 gates: &gates,
             },
-            &[],
         )
         .unwrap();
         let bytes = w.into_inner();

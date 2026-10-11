@@ -32,11 +32,6 @@ tikv-jemallocator = "0.6"
 # The annotation embedding (umap_1/umap_2). Pinned to a tag: the coordinates are output.
 umaprs = { git = "https://github.com/tercen/umaprs", tag = "0.2.0" }
 ndarray = "0.15"
-# Diagnostic histogram PNGs (the third output table of the R operator).
-plotters = { version = "0.3", default-features = false, features = ["bitmap_backend", "line_series", "ttf"] }
-png = "0.17"
-md-5 = "0.10"
-base64 = "0.22"
 libc = "0.2"
 
 [dev-dependencies]

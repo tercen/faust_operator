@@ -27,14 +27,14 @@ Input parameters|.
 `seed`                | random seed; the same seed gives the same labels (default 123)
 `sample_factor`       | column factor naming the sample; empty uses `filename` if projected, else one sample
 `threads`             | samples processed in parallel; 0 = every core the task has (the result does not depend on it)
-`histograms`          | also return the per-marker threshold histograms as PNGs (default true)
+
 
 Output relations|.
 ---|---
 `umap_1`, `umap_2`   | annotation embedding coordinates per cell
 `label`              | FAUST phenotype, e.g. `CD3+CD4-CD8+`; cells of phenotypes below the occurrence threshold get `0_0_0`
 `<marker>_gate`      | 1 for `+`, 0 for `-` on each selected marker (NA for markers with more than two levels)
-`filename`, `mimetype`, `checksum`, `.content` | the histograms, one PNG per selected marker and threshold
+
 
 ##### Details
 
@@ -48,8 +48,9 @@ occur across samples (elbow rule above 4 samples, all phenotypes otherwise).
 
 Parity with R is checked stage by stage in `crates/faust/tests/parity_*.rs` on fixtures dumped
 from the R packages (`dev/make_fixtures.R`, run inside the 0.x operator's image). Differences
-from the R operator, all deliberate: the embedding's jitters and the histogram subsample are
-drawn from a seeded generator (R's were unseeded), and samples run in parallel.
+from the R operator, all deliberate: the embedding's jitters are drawn from a seeded generator
+(R's were unseeded), samples run in parallel, and the third table of the R operator (threshold
+histogram PNGs joined on nothing) is not produced.
 
 ##### References
 

@@ -12,7 +12,6 @@ measured, not designed.
 | `src/input.rs`, `src/context.rs`, `src/upload.rs`, `src/tson.rs`, `src/progress.rs`, `src/pagecache.rs` | Tercen plumbing, copied from `umap_operator` (keep them in step) |
 | `src/props.rs` | properties; the test asserts every one is in `operator.json` with the same default |
 | `src/output.rs` | the `OperatorResult` TSON: per-cell table (`.ci`) + optional PNG table |
-| `src/plots.rs` | the threshold histograms (R's `plotMarkerHistograms`) with `plotters` |
 | `crates/faust/` | the algorithm, no Tercen types: see its module docs |
 
 `crates/faust` modules, in pipeline order: `noise` (libstdc++-exact `rng`) → `forest` (search
@@ -23,8 +22,7 @@ gating, phenotype selection) → `scamp` → `embed`; `pipeline` composes them; 
 ## Crosstab contract
 
 Rows = markers, columns = cells (+ `filename` or `sample_factor`), y = value. Per-cell output
-keyed by `.ci`: `umap_1`, `umap_2` (double), `label` (string), `<marker>_gate` (double, 0/1/NA),
-plus the PNG table joined on nothing. The matrix is gathered (cells × markers, f64): FAUST needs
+keyed by `.ci`: `umap_1`, `umap_2` (double), `label` (string), `<marker>_gate` (double, 0/1/NA). The matrix is gathered (cells × markers, f64): FAUST needs
 every sample's whole matrix, so a stream makes no sense; `memory_model.json` declares the cost.
 
 ## Parity
@@ -47,9 +45,9 @@ $PWD/dev:/fix -v $PWD/tests:/operator/tests:ro --entrypoint Rscript tercen/faust
 Three things in the C++ were reproduced rather than fixed, each marked in a doc comment: the
 residual scamp search scores candidates on the wrong rows (full matrix indexed by subset
 positions); `cppRnorm` builds a fresh distribution per draw; the gating keeps the node minimum
-in the first child. Deliberate deviations: the embedding jitters and the histogram subsample
-use a seeded generator (R's were unseeded), samples run in parallel, no `std::random_device`
-path (seed 0 is refused).
+in the first child. Deliberate deviations: the embedding jitters use a seeded generator (R's
+were unseeded), samples run in parallel, no `std::random_device` path (seed 0 is refused), and
+the R operator's third table (threshold histogram PNGs joined on nothing) is not produced.
 
 **What is not reproducible even in R:** phase 2 with `threadNum > 1` (the operator ran 4),
 because scamp merges thread results under a mutex and stops at a shared cap. Phase 1 is a

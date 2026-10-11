@@ -12,7 +12,6 @@ pub mod context;
 pub mod input;
 pub mod output;
 pub mod pagecache;
-pub mod plots;
 pub mod progress;
 pub mod props;
 pub mod tson;
@@ -241,13 +240,6 @@ async fn execute(ctx: &ContextBase, mode: Mode) -> Result<()> {
         }
     }
 
-    // ---- histograms
-    let pngs = if s.histograms {
-        plots::marker_histograms(&run, &selected_names, s.seed as u64)?
-    } else {
-        Vec::new()
-    };
-
     rep.at(progress::WRITE.0, "Writing the result");
     let work_root =
         std::env::temp_dir().join(format!("faust_op_{}_{}", ctx.workflow_id(), ctx.step_id()));
@@ -270,7 +262,6 @@ async fn execute(ctx: &ContextBase, mode: Mode) -> Result<()> {
                 labels: &labels,
                 gates: &gates,
             },
-            &pngs,
         )?;
     }
     let bytes = std::fs::metadata(&result_path)?.len();

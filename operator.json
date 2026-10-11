@@ -44,12 +44,6 @@
       "name": "threads",
       "defaultValue": 0,
       "description": "Samples are processed in parallel; 0 uses every core the task is given. The result does not depend on the thread count."
-    },
-    {
-      "kind": "BooleanProperty",
-      "name": "histograms",
-      "defaultValue": true,
-      "description": "Return the per-marker histograms with the annotation thresholds as a table of PNG images (the R operator's third table)."
     }
   ],
   "operatorSpec": {

@@ -19,8 +19,6 @@ pub struct Settings {
     pub sample_factor: String,
     /// `threads`: samples are processed in parallel; 0 uses every core the task has.
     pub threads: usize,
-    /// `histograms`: draw the per-marker threshold histograms (the R operator's third table).
-    pub histograms: bool,
 }
 
 impl Default for Settings {
@@ -31,7 +29,6 @@ impl Default for Settings {
             seed: 123,
             sample_factor: String::new(),
             threads: 0,
-            histograms: true,
         }
     }
 }
@@ -62,19 +59,12 @@ pub fn read(ctx: &ContextBase) -> Result<Settings> {
     if !(1.0..=4_294_967_295.0).contains(&seed) {
         bail!("property 'seed' must be a positive integer below 2^32, got {seed}");
     }
-    let histograms = match text("histograms").to_lowercase().as_str() {
-        "" => d.histograms,
-        "true" | "yes" | "1" => true,
-        "false" | "no" | "0" => false,
-        other => bail!("property 'histograms' must be true or false, got '{other}'"),
-    };
     let s = Settings {
         selection_quantile,
         depth_score_threshold,
         seed: seed as u32,
         sample_factor: text("sample_factor"),
         threads: num("threads", 0.0)?.max(0.0) as usize,
-        histograms,
     };
     tracing::info!(?s, "properties");
     Ok(s)
@@ -107,7 +97,6 @@ mod tests {
         assert_eq!(by_name("seed")["defaultValue"], d.seed as f64);
         assert_eq!(by_name("sample_factor")["defaultValue"], "");
         assert_eq!(by_name("threads")["defaultValue"], 0.0);
-        assert_eq!(by_name("histograms")["defaultValue"], d.histograms);
         let allowed = [
             "OperatorSpec",
             "CrosstabSpec",
