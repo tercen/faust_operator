@@ -231,13 +231,16 @@ pub fn write_result<W: Write>(
         w.key("rColumns")?;
         w.list(0)?;
         w.key("rightRelation")?;
+        // The platform resolves a result-side SimpleRelation by the TABLE NAME in `id`
+        // (read_fcs does the same); an empty id is looked up as a schema and fails with
+        // `Schema.list.not.found`.
         w.map(3)?;
         w.key("kind")?;
         w.str("SimpleRelation")?;
         w.key("id")?;
-        w.str("")?;
+        w.str(&format!("{table_name}_png"))?;
         w.key("index")?;
-        w.i32(1)?;
+        w.i32(0)?;
         w.key("joinType")?;
         w.str("left")?;
     }
