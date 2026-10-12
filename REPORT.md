@@ -48,9 +48,11 @@ Goal (Faris, 00:20): "create and test a rust faust operator ready in morning".
 
 ## Not done / decisions for you
 
-1. **Tag 1.0.0.** Waiting for CI on the branch; the release workflow builds and pushes
-   `ghcr.io/tercen/faust_operator:1.0.0` and runs the install check (platform test) on the org
-   test server. A new GHCR package may start private (manual flip, see create-rust-operator §9).
+1. **Released.** CI green on the branch, tag `1.0.0` cut at 00:06Z: the Release workflow
+   pushed `ghcr.io/tercen/faust_operator:1.0.0` (package is public, anonymous pull works), the
+   install check with the platform test passed on the org test server, and the GitHub release is
+   published. **PR #1 is not merged** — that is your call; `operator.json` on the branch pins
+   1.0.0, so installing the repo at the tag works now.
 2. **The R operator's third table** (threshold histogram PNGs, joined on nothing) is not
    produced: declaring that empty-key join made the server drop the main table. If it matters,
    it should be a separate plot operator.
