@@ -51,3 +51,9 @@ sample's thresholds as red dashed lines), as a second result table keyed by `.ri
 plotters into an RGB buffer, DejaVu Sans embedded (`fonts/`, Bitstream Vera licence), encoded
 with `png`; the static image stays a few MB. `joinOperators` is left empty so the server joins
 both tables itself.
+
+Release note: tag `1.1.0` was cut with `operator.json` still pinning the 1.0.0 image, so the
+release workflow's install check ran the old binary against the four-table golden and failed
+(`task.test.operator.bad.nRelations`); the `1.1.0` image exists on ghcr but there is no release.
+`1.1.1` is the same code with the container pin bumped — a release commit must bump
+`operator.json` `container` and `Cargo.toml` `version` to the tag before tagging.
