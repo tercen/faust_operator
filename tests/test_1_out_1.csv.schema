@@ -43,7 +43,7 @@
     },
     {
       "kind": "ColumnSchema",
-      "name": ".i",
+      "name": ".ci",
       "type": "int32"
     }
   ]

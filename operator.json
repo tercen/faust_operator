@@ -1,6 +1,6 @@
 {
   "name": "FAUST",
-  "description": "Full annotation using shape-constrained trees, a clustering and phenotyping algorithm for flow cytometry data.",
+  "description": "Full Annotation Using Shape-constrained Trees: data-driven discovery and annotation of cell phenotypes per sample (Greene et al. 2021). Version 1 is a Rust port of the R operator (FAUST 0.5.5 + scamp 0.5.0): the thresholds, the per-cell phenotype labels and the gates are identical to the single-thread R run on the same seed; the UMAP coordinates follow the same landmark layout but come from umaprs, so they differ from uwot's.",
   "tags": [
     "flow cytometry",
     "clustering",
@@ -12,25 +12,38 @@
   "urls": [
     "https://github.com/tercen/faust_operator"
   ],
-  "container": "tercen/faust_operator:0.1.2",
+  "communicationProtocol": "grpc",
+  "container": "ghcr.io/tercen/faust_operator:1.0.0",
   "properties": [
     {
       "kind": "DoubleProperty",
       "name": "selectionQuantile",
       "defaultValue": 0.5,
-      "description": "Selection quantile. See FAUST documentation."
+      "description": "A marker is kept when this quantile of its depth score across samples is at least depthScoreThreshold (FAUST selectionQuantile)."
     },
     {
       "kind": "DoubleProperty",
       "name": "depthScoreThreshold",
       "defaultValue": 0.01,
-      "description": "Depth score threshold. See FAUST documentation."
+      "description": "Depth score a marker must reach, at selectionQuantile, to be used for annotation (FAUST depthScoreThreshold)."
     },
     {
       "kind": "DoubleProperty",
       "name": "seed",
       "defaultValue": 123,
-      "description": "Random seed."
+      "description": "Random seed (FAUST seedValue). The same seed gives the same thresholds, labels and gates as the R operator at threadNum = 1."
+    },
+    {
+      "kind": "StringProperty",
+      "name": "sample_factor",
+      "defaultValue": "",
+      "description": "Column factor that names the sample (file, donor). Empty uses a projected factor called filename, as the R operator does, else all cells are one sample."
+    },
+    {
+      "kind": "DoubleProperty",
+      "name": "threads",
+      "defaultValue": 0,
+      "description": "Samples are processed in parallel; 0 uses every core the task is given. The result does not depend on the thread count."
     }
   ],
   "operatorSpec": {
@@ -55,7 +68,7 @@
             "kind": "MetaFactor",
             "name": "Clusters",
             "type": "",
-            "description": "Represents the clusters (e.g. cells)",
+            "description": "Represents the observations (e.g. cells), optionally with the sample they belong to (filename)",
             "ontologyMapping": "observation",
             "crosstabMapping": "column",
             "cardinality": "1..n",
@@ -84,7 +97,7 @@
     "outputSpecsV2": [
       {
         "kind": "OperatorJoinSpec",
-        "description": "FAUST clustering with UMAP coordinates and phenotype gates",
+        "description": "FAUST phenotype label, per-marker gates and UMAP coordinates per cell",
         "joinOperators": [
           {
             "kind": "JoinOperator",

@@ -1,0 +1,42 @@
+{
+  "kind": "OperatorUnitTest",
+  "name": "test_1_threads1",
+  "namespace": "ds0",
+  "inputDataUri": "test_1_in.csv",
+  "outputDataUri": [
+    "test_1_out_1.csv",
+    "test_1_out_2.csv",
+    "test_1_out_3.csv",
+    "test_1_out_4.csv"
+  ],
+  "columns": [
+    "rowId"
+  ],
+  "rows": [
+    "gs0.variable"
+  ],
+  "colors": [],
+  "labels": [],
+  "yAxis": "y_values",
+  "xAxis": "",
+  "generatedOn": "10/12/2026 00:41:00 AM 2026",
+  "version": "",
+  "propertyValues": [
+    {
+      "kind": "PropertyValue",
+      "name": "threads",
+      "value": "1"
+    },
+    {
+      "kind": "PropertyValue",
+      "name": "seed",
+      "value": "123"
+    }
+  ],
+  "skipColumns": [
+    ".content",
+    "ds0.checksum"
+  ],
+  "equalityMethod": "R2",
+  "r2": 0.99
+}

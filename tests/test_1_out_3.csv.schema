@@ -20,6 +20,11 @@
       "kind": "ColumnSchema",
       "name": ".content",
       "type": "string"
+    },
+    {
+      "kind": "ColumnSchema",
+      "name": ".ri",
+      "type": "int32"
     }
   ]
 }
