@@ -9,6 +9,7 @@
 //! code loops over them); the search inside a sample is single-threaded, which is what makes
 //! the result reproducible and identical to R's `threadNum = 1`.
 pub mod context;
+pub mod hist;
 pub mod input;
 pub mod output;
 pub mod pagecache;
@@ -240,6 +241,40 @@ async fn execute(ctx: &ContextBase, mode: Mode) -> Result<()> {
         }
     }
 
+    // ---- threshold histograms, one PNG per selected marker
+    let hists = {
+        use base64::Engine;
+        use md5::Digest;
+        let mut h = output::HistTable {
+            ri: Vec::new(),
+            filenames: Vec::new(),
+            checksums: Vec::new(),
+            contents: Vec::new(),
+        };
+        for (j, &mj) in run.selected.iter().enumerate() {
+            let per_sample: Vec<&[f64]> = (0..n_samples)
+                .map(|g| run.selected_exprs[g][j].as_slice())
+                .collect();
+            let pooled = hist::pooled_sample(&per_sample, s.seed as u64 ^ (j as u64) << 32);
+            let trimmed = hist::trim_1_99(&pooled);
+            let gates: Vec<f64> = (0..n_samples)
+                .flat_map(|g| run.thresholds[g][j].iter().copied())
+                .collect();
+            match hist::render(&markers[mj], &trimmed, &gates) {
+                Ok(png) => {
+                    h.ri.push(mj as i32);
+                    h.filenames.push(format!("hist_{}.png", markers[mj]));
+                    h.checksums.push(format!("{:x}", md5::Md5::digest(&png)));
+                    h.contents
+                        .push(base64::engine::general_purpose::STANDARD.encode(&png));
+                }
+                Err(e) => rep.info(format!("no histogram for {}: {e}", markers[mj])),
+            }
+        }
+        h
+    };
+    tracing::info!(histograms = hists.ri.len(), "histograms rendered");
+
     rep.at(progress::WRITE.0, "Writing the result");
     let work_root =
         std::env::temp_dir().join(format!("faust_op_{}_{}", ctx.workflow_id(), ctx.step_id()));
@@ -262,6 +297,7 @@ async fn execute(ctx: &ContextBase, mode: Mode) -> Result<()> {
                 labels: &labels,
                 gates: &gates,
             },
+            Some(&hists),
         )?;
     }
     let bytes = std::fs::metadata(&result_path)?.len();

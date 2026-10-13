@@ -22,6 +22,7 @@ RUN mv Cargo.toml.keep Cargo.toml
 
 COPY src ./src
 COPY crates ./crates
+COPY fonts ./fonts
 COPY operator.json ./
 RUN cargo build --release --target x86_64-unknown-linux-musl --bin faust_operator \
  && ls -l target/x86_64-unknown-linux-musl/release/faust_operator

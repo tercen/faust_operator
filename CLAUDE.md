@@ -11,7 +11,8 @@ measured, not designed.
 | `src/lib.rs` | `execute()`: read the crosstab, split by sample, run FAUST, embed, write, upload |
 | `src/input.rs`, `src/context.rs`, `src/upload.rs`, `src/tson.rs`, `src/progress.rs`, `src/pagecache.rs` | Tercen plumbing, copied from `umap_operator` (keep them in step) |
 | `src/props.rs` | properties; the test asserts every one is in `operator.json` with the same default |
-| `src/output.rs` | the `OperatorResult` TSON: per-cell table (`.ci`) + optional PNG table |
+| `src/output.rs` | the `OperatorResult` TSON: per-cell table (`.ci`) + histogram table (`.ri`), `joinOperators` empty on purpose |
+| `src/hist.rs` | the threshold histograms (FAUST's `.plotMarkerHistograms`): plotters + embedded DejaVu Sans, one PNG per selected marker |
 | `crates/faust/` | the algorithm, no Tercen types: see its module docs |
 
 `crates/faust` modules, in pipeline order: `noise` (libstdc++-exact `rng`) → `forest` (search
@@ -47,7 +48,10 @@ residual scamp search scores candidates on the wrong rows (full matrix indexed b
 positions); `cppRnorm` builds a fresh distribution per draw; the gating keeps the node minimum
 in the first child. Deliberate deviations: the embedding jitters use a seeded generator (R's
 were unseeded), samples run in parallel, no `std::random_device` path (seed 0 is refused), and
-the R operator's third table (threshold histogram PNGs joined on nothing) is not produced.
+the threshold histograms are one PNG per marker keyed by `.ri` (R wrote one per gate number,
+joined on nothing). Keep `joinOperators` empty in the result: with it empty the server joins
+every table by its `.ci`/`.ri`; declaring joins switches to the explicit branch, where the
+per-cell table was no longer attached (why 1.0.0 had no PNGs).
 
 **What is not reproducible even in R:** phase 2 with `threadNum > 1` (the operator ran 4),
 because scamp merges thread results under a mutex and stops at a shared cap. Phase 1 is a

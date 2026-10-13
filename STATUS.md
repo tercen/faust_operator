@@ -39,6 +39,15 @@ bit-identical or string-identical on test_1 and two 20k-cell synthetic samples.
 
 - scamp's subsampled gates (`densitySubSampleThreshold`, nodes of ≥ 1e6 cells): `unimplemented!`;
   samples above 1 M cells per node are refused.
-- The R operator's third table (threshold histogram PNGs).
 - `experimentalUnit`, `imputationHierarchy`, `supervisedList`, `channelBounds` inputs of
   `faust()` (the operator never set them).
+
+## 1.1.0 — threshold histograms
+
+The histogram table is back: one PNG per selected marker (`hist_<marker>.png`, 800 × 600,
+FAUST's recipe: ≤ 1000 cells per sample pooled, 1 %/99 % trim, FD/`pretty` bins, every
+sample's thresholds as red dashed lines), as a second result table keyed by `.ri` with
+`filename`, `mimetype`, `checksum`, `.content` — the UI lists them under Files. Drawn with
+plotters into an RGB buffer, DejaVu Sans embedded (`fonts/`, Bitstream Vera licence), encoded
+with `png`; the static image stays a few MB. `joinOperators` is left empty so the server joins
+both tables itself.

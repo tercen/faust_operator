@@ -3,7 +3,7 @@ members = ["crates/faust"]
 
 [package]
 name = "faust_operator"
-version = "1.0.0"
+version = "1.1.0"
 edition = "2024"
 description = "FAUST (Full Annotation Using Shape-constrained Trees) for Tercen — Rust port of tercen/faust_operator (R, FAUST 0.5.5 + scamp 0.5.0)"
 license = "GPL-3.0-or-later"
@@ -33,6 +33,12 @@ tikv-jemallocator = "0.6"
 umaprs = { git = "https://github.com/tercen/umaprs", tag = "0.2.0" }
 ndarray = "0.15"
 libc = "0.2"
+# The threshold histograms (one PNG per selected marker): plotters draws into an RGB buffer
+# with an embedded font (fonts/DejaVuSans.ttf, Bitstream Vera licence), png encodes it.
+plotters = { version = "0.3.7", default-features = false, features = ["bitmap_backend", "ab_glyph", "line_series"] }
+png = "0.17"
+base64 = "0.22"
+md-5 = "0.10"
 
 [dev-dependencies]
 tempfile = "3"

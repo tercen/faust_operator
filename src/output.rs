@@ -4,9 +4,14 @@
 //! per selected marker — the R operator's columns, with the same types (the gates are doubles
 //! there and stay doubles so a workflow built on 0.x keeps working).
 //!
-//! The R operator's third table (the threshold histograms as PNGs, joined on nothing) is not
-//! produced: an empty-key join is a cross join against the crosstab, and the platform dropped
-//! the main table when the result declared one.
+//! Table 2 (when there are histograms), one row per selected marker keyed by `.ri`: `filename`,
+//! `mimetype`, `checksum`, `.content` (base64 PNG) — the shape `tim::plot_file_to_df` gives the
+//! R operator, so the UI shows them under "Files". The R operator joined its PNG table on
+//! nothing (a cross join); keyed on `.ri` the image sits on the marker's row instead.
+//!
+//! `joinOperators` stays empty: that is the branch where the server joins every table itself
+//! by its `.ci`/`.ri` columns. Declaring joins switches it to the explicit branch, where the
+//! per-cell table was no longer attached (1.0.0 dropped the PNGs for that reason).
 use std::io::Write;
 
 use anyhow::{Result, anyhow};
@@ -65,7 +70,6 @@ fn column_header<W: Write>(w: &mut TsonWriter<W>, c: &ColSpec, n_rows: usize) ->
     Ok(())
 }
 
-/// The whole result: the per-cell table and, when `pngs` is non-empty, the histogram table.
 pub struct CellTable<'a> {
     pub namespace: &'a str,
     pub umap_1: &'a [f64],
@@ -75,18 +79,31 @@ pub struct CellTable<'a> {
     pub gates: &'a [(String, Vec<f64>)],
 }
 
+/// The histogram table: parallel vectors, one entry per selected marker.
+pub struct HistTable {
+    /// Row index of the marker in the crosstab.
+    pub ri: Vec<i32>,
+    pub filenames: Vec<String>,
+    /// md5 of the PNG bytes, hex.
+    pub checksums: Vec<String>,
+    /// The PNG, base64.
+    pub contents: Vec<String>,
+}
+
 pub fn write_result<W: Write>(
     w: &mut TsonWriter<W>,
     table_name: &str,
     cells: &CellTable,
+    hists: Option<&HistTable>,
 ) -> Result<()> {
     let n = cells.umap_1.len();
     let ns = cells.namespace;
+    let hists = hists.filter(|h| !h.ri.is_empty());
     w.map(3)?;
     w.key("kind")?;
     w.str("OperatorResult")?;
     w.key("tables")?;
-    w.list(1)?;
+    w.list(if hists.is_some() { 2 } else { 1 })?;
 
     // ---- table 1: cells
     let names: Vec<String> = [
@@ -152,9 +169,39 @@ pub fn write_result<W: Write>(
     )?;
     w.i32_list(&(0..n as i32).collect::<Vec<_>>())?;
 
-    // One relation only, keyed by .ci: no joinOperators (a second table joined on nothing is
-    // a cross join against the crosstab, and the platform did not persist the main table when
-    // one was declared).
+    // ---- table 2: histograms, keyed by .ri
+    if let Some(h) = hists {
+        let m = h.ri.len();
+        table_header(w, &format!("{table_name}_histograms"), m, 5)?;
+        let mimetypes = vec!["image/png".to_string(); m];
+        for (name, values) in [
+            (format!("{ns}.filename"), &h.filenames),
+            (format!("{ns}.mimetype"), &mimetypes),
+            (format!("{ns}.checksum"), &h.checksums),
+            (".content".to_string(), &h.contents),
+        ] {
+            column_header(
+                w,
+                &ColSpec {
+                    name: &name,
+                    ty: "string",
+                },
+                m,
+            )?;
+            w.str_list(values)?;
+        }
+        column_header(
+            w,
+            &ColSpec {
+                name: ".ri",
+                ty: "int32",
+            },
+            m,
+        )?;
+        w.i32_list(&h.ri)?;
+    }
+
+    // No joinOperators: the server joins each table by its .ci / .ri column.
     w.key("joinOperators")?;
     w.list(0)?;
     w.flush()?;
@@ -179,6 +226,7 @@ mod tests {
                 labels: &["CD3+".to_string(), "CD3-".to_string()],
                 gates: &gates,
             },
+            None,
         )
         .unwrap();
         let bytes = w.into_inner();
@@ -211,6 +259,67 @@ mod tests {
                 "ds0.label",
                 "ds0.CD3_gate",
                 ".ci"
+            ]
+        );
+    }
+
+    #[test]
+    fn the_histogram_table_is_keyed_by_ri() {
+        let mut w = TsonWriter::new(Vec::new()).unwrap();
+        let gates = vec![("CD3".to_string(), vec![1.0, 0.0])];
+        let h = HistTable {
+            ri: vec![2],
+            filenames: vec!["hist_CD3.png".into()],
+            checksums: vec!["abc".into()],
+            contents: vec!["iVBORw0KGgo=".into()],
+        };
+        write_result(
+            &mut w,
+            "t",
+            &CellTable {
+                namespace: "ds0",
+                umap_1: &[1.0, 2.0],
+                umap_2: &[3.0, 4.0],
+                labels: &["CD3+".to_string(), "CD3-".to_string()],
+                gates: &gates,
+            },
+            Some(&h),
+        )
+        .unwrap();
+        let v = rustson::decode(std::io::Cursor::new(&w.into_inner()[..])).unwrap();
+        let rustson::Value::MAP(m) = v else { panic!() };
+        let rustson::Value::LST(tables) = &m["tables"] else {
+            panic!()
+        };
+        assert_eq!(tables.len(), 2);
+        let rustson::Value::LST(joins) = &m["joinOperators"] else {
+            panic!()
+        };
+        assert!(joins.is_empty());
+        let rustson::Value::MAP(t) = &tables[1] else {
+            panic!()
+        };
+        let rustson::Value::LST(cols) = &t["columns"] else {
+            panic!()
+        };
+        let names: Vec<String> = cols
+            .iter()
+            .map(|c| {
+                let rustson::Value::MAP(c) = c else { panic!() };
+                let rustson::Value::STR(n) = &c["name"] else {
+                    panic!()
+                };
+                n.clone()
+            })
+            .collect();
+        assert_eq!(
+            names,
+            [
+                "ds0.filename",
+                "ds0.mimetype",
+                "ds0.checksum",
+                ".content",
+                ".ri"
             ]
         );
     }

@@ -49,8 +49,9 @@ occur across samples (elbow rule above 4 samples, all phenotypes otherwise).
 Parity with R is checked stage by stage in `crates/faust/tests/parity_*.rs` on fixtures dumped
 from the R packages (`dev/make_fixtures.R`, run inside the 0.x operator's image). Differences
 from the R operator, all deliberate: the embedding's jitters are drawn from a seeded generator
-(R's were unseeded), samples run in parallel, and the third table of the R operator (threshold
-histogram PNGs joined on nothing) is not produced.
+(R's were unseeded), samples run in parallel, and the threshold histograms are one PNG per
+selected marker on the marker's row (`.ri`), all of its gates on the one plot (R wrote one
+file per gate number, joined on nothing). Since 1.1.0.
 
 ##### References
 
