@@ -1,4 +1,5 @@
 target/
 *.token
-.Rproj.user
-.Rhistory
+crates/faust/tests/parity/fixtures/
+crates/faust/tests/parity/fixtures.tmp-*
+/renv/

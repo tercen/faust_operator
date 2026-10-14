@@ -6,9 +6,8 @@ use std::path::PathBuf;
 use faust::pipeline::{FaustSettings, Sample, run_faust};
 use faust::select::embedding_label;
 
-fn fixtures() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/parity/fixtures")
-}
+mod common;
+use common::fixtures;
 
 fn read_matrix(name: &str) -> (Vec<String>, Vec<Vec<f64>>) {
     let text = std::fs::read_to_string(fixtures().join(name)).unwrap();

@@ -8,13 +8,11 @@
 //!   after rounding both sides to 15 significant digits.
 
 use std::fs;
-use std::path::PathBuf;
 
 use faust::tsgates::{taut_string_pairs, ts_gates};
 
-fn fixture_dir() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/parity/fixtures")
-}
+mod common;
+use common::fixtures as fixture_dir;
 
 fn read_vec(name: &str) -> Vec<f64> {
     let p = fixture_dir().join(name);
