@@ -42,6 +42,16 @@ bit-identical or string-identical on test_1 and two 20k-cell synthetic samples.
 - `experimentalUnit`, `imputationHierarchy`, `supervisedList`, `channelBounds` inputs of
   `faust()` (the operator never set them).
 
+## 1.1.2 (2026-10-14) — one selected marker crashed the embedding
+
+First prod run of 1.1.1 (Tudor Dimofte's workflow, 60k cells, 6 markers, no `sample_factor`
+so one sample) selected a single marker (PAC1). The embedding matrix then has one column and
+umaprs 0.2.0's PCA initialisation (used above 2000 points) indexed a second eigenvector that
+does not exist: `index out of bounds: the len is 1 but the index is 1`, exit code 134.
+Fixed in umaprs 0.2.1 (tercen/umaprs#3): components beyond the data's dimension start from
+seeded unit-normal noise. Regression test `embedding_tests::umap_on_one_dimension_does_not_panic`.
+No other change.
+
 ## 1.1.0 — threshold histograms
 
 The histogram table is back: one PNG per selected marker (`hist_<marker>.png`, 800 × 600,

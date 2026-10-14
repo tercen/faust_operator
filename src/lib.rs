@@ -435,3 +435,25 @@ fn peak_rss_kb() -> Option<u64> {
                 .and_then(|l| l.split_whitespace().nth(1)?.parse().ok())
         })
 }
+
+#[cfg(test)]
+mod embedding_tests {
+    use ndarray::Array2;
+
+    /// One selected marker gives a one-column embedding matrix. umaprs 0.2.0 panicked in its
+    /// PCA initialisation on that shape once the dataset was above 2000 cells (prod run
+    /// 432b2017, 60k cells, PAC1 only); 0.2.1 fills the missing component with seeded noise.
+    #[test]
+    fn umap_on_one_dimension_does_not_panic() {
+        let n = 2100;
+        let m = Array2::from_shape_fn((n, 1), |(i, _)| (i % 41) as f64);
+        let e = umaprs::UMAP::new()
+            .n_neighbors(15)
+            .min_dist(0.2)
+            .random_state(123)
+            .threads(1)
+            .fit_transform(&m);
+        assert_eq!(e.shape(), &[n, 2]);
+        assert!(e.iter().all(|v| v.is_finite()));
+    }
+}

@@ -3,7 +3,7 @@ members = ["crates/faust"]
 
 [package]
 name = "faust_operator"
-version = "1.1.1"
+version = "1.1.2"
 edition = "2024"
 description = "FAUST (Full Annotation Using Shape-constrained Trees) for Tercen — Rust port of tercen/faust_operator (R, FAUST 0.5.5 + scamp 0.5.0)"
 license = "GPL-3.0-or-later"
@@ -30,7 +30,7 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 tikv-jemallocator = "0.6"
 # The annotation embedding (umap_1/umap_2). Pinned to a tag: the coordinates are output.
-umaprs = { git = "https://github.com/tercen/umaprs", tag = "0.2.0" }
+umaprs = { git = "https://github.com/tercen/umaprs", tag = "0.2.1" }
 ndarray = "0.15"
 libc = "0.2"
 # The threshold histograms (one PNG per selected marker): plotters draws into an RGB buffer
