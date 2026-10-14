@@ -6,14 +6,9 @@
 //! the same row order, so the fixture lines align with the CSV rows.
 use faust::noise::add_noise_to_vector;
 use std::fs;
-use std::path::PathBuf;
 
-fn fixtures() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("tests")
-        .join("parity")
-        .join("fixtures")
-}
+mod common;
+use common::fixtures;
 
 /// Columns of a header-ed CSV, by header name, in file order.
 fn read_csv(name: &str) -> (Vec<String>, Vec<Vec<f64>>) {

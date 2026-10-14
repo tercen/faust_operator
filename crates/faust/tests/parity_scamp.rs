@@ -11,9 +11,8 @@ use std::path::PathBuf;
 use faust::scamp::{ScampParams, run_scamp};
 use faust::select::{any_restricted, empirical_channel_bounds, restriction_matrix};
 
-fn fixtures() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/parity/fixtures")
-}
+mod common;
+use common::fixtures;
 
 fn read_matrix_f32(name: &str) -> (Vec<String>, Vec<Vec<f64>>) {
     let text = std::fs::read_to_string(fixtures().join(name)).unwrap();

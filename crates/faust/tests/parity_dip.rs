@@ -7,11 +7,8 @@
 //! - `<tag>_sub<n>_x.txt` (already sorted) with `_singleDip`, `_doubleDip`, `_tripleDip`
 //!   (n ≤ 400 only).
 
-use std::path::{Path, PathBuf};
-
-fn fixtures() -> PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/parity/fixtures")
-}
+mod common;
+use common::fixtures;
 
 fn read_vec(name: &str) -> Vec<f64> {
     let p = fixtures().join(name);

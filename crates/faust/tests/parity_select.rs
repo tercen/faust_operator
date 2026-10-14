@@ -13,9 +13,8 @@ use std::path::{Path, PathBuf};
 use faust::forest::Gate;
 use faust::select::*;
 
-fn fixtures() -> PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/parity/fixtures")
-}
+mod common;
+use common::fixtures;
 
 fn lines(path: &Path) -> Vec<String> {
     std::fs::read_to_string(path)
@@ -242,7 +241,7 @@ fn channel_bounds_and_effective_sizes_match_r() {
     let want = q_csv("test1_sample_q01_q99.csv");
     assert_exact_vec(&q01, &want.0, "test1 q01");
     assert_exact_vec(&q99, &want.1, "test1 q99");
-    let bounds = empirical_channel_bounds(&[exprs.clone()]).unwrap();
+    let bounds = empirical_channel_bounds(std::slice::from_ref(&exprs)).unwrap();
     let (_, rows, vals) = csv_matrix(
         &fixtures().join("test1_faust/metaData/channelBoundsUsedByFAUST/allSamples.csv"),
     );

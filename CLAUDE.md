@@ -31,8 +31,11 @@ every sample's whole matrix, so a stream makes no sense; `memory_model.json` dec
 Reference: R FAUST 0.5.5 + scamp 0.5.0 in `tercen/faust_operator:0.1.2` (R 4.0.4, g++ 9.4.0),
 `threadNum = 1`. Fixtures: `dev/make_fixtures.R` run inside that image (`docker run --rm -v
 $PWD/dev:/fix -v $PWD/tests:/operator/tests:ro --entrypoint Rscript tercen/faust_operator:0.1.2
-/fix/make_fixtures.R /fix/out`), every number written with `%.17g`. Tests
-`crates/faust/tests/parity_*.rs`:
+/fix/make_fixtures.R /fix/out`), every number written with `%.17g`. The fixtures are tracked as
+one file, `crates/faust/tests/parity/fixtures.tar.gz` (Tercen's library install imports every file
+of the repo as a document: one archive = one document, not 820); `tests/common/mod.rs` unpacks it
+on first use into the git-ignored `fixtures/`. After regenerating fixtures run
+`dev/pack_fixtures.sh`. Tests `crates/faust/tests/parity_*.rs`:
 
 | stage | fixture | claim |
 |---|---|---|

@@ -1,5 +1,22 @@
 # Status
 
+## Repo cleanup (2026-10-14) — fixtures as one archive, R leftovers gone
+
+Tercen's library install (`GitProjectHelper`, reset-pull) imports every file of the repo tree as
+a document at ~10/s, once per pinned version. 1.1.3 has 1,008 tracked files, 820 of them parity
+fixtures, so each new version cost the library sync ~2 min and 1,000 public documents. Now:
+`crates/faust/tests/parity/fixtures.tar.gz` (6.3 MB, reproducible via `dev/pack_fixtures.sh`)
+replaces the 820 files; `tests/common/mod.rs` unpacks it on first use (git-ignored, atomic
+rename, safe under parallel test binaries). Removed the R-era leftovers (`.Rprofile`,
+`Cargo.lock.umap`, `faust_example.csv`, `faust_operator.Rproj`, `main.R`, `renv.lock`, `renv/`,
+`workspace.R`). Tracked files 1,008 → 179. No operator change; no release needed — the next
+functional release carries it.
+
+Also found while doing it: CI ran `cargo test` / `cargo clippy` at the workspace root, which
+covers only the root package — the `faust` crate's 27 unit tests and 7 parity binaries had never
+run in CI. Both steps now take `--workspace` (parity suite ≈ 2 min; three lints it surfaced are
+fixed).
+
 ## Measured (2026-10-12, 16-core laptop, release build)
 
 Synthetic data shaped like `dev/profile_faust.R` (markers with 1–3 modes). R = FAUST 0.5.5 in

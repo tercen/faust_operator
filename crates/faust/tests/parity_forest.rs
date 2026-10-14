@@ -10,9 +10,8 @@ use std::path::PathBuf;
 use faust::forest::{SearchParams, gate_data, grow_annotation_forest};
 use faust::rrng::forest_seed;
 
-fn fixtures() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/parity/fixtures")
-}
+mod common;
+use common::fixtures;
 
 fn read_matrix(name: &str) -> (Vec<String>, Vec<Vec<f64>>) {
     let text = std::fs::read_to_string(fixtures().join(name)).unwrap();
