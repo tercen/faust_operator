@@ -42,6 +42,16 @@ bit-identical or string-identical on test_1 and two 20k-cell synthetic samples.
 - `experimentalUnit`, `imputationHierarchy`, `supervisedList`, `channelBounds` inputs of
   `faust()` (the operator never set them).
 
+## 1.1.3 (2026-10-14) — memory model refit on Tudor's prod runs
+
+Measured peaks of 1.1.2 on prod (`stats_d_actual_ram_peak`): 500 cells 19 MB, 60k cells 170 MB,
+75.5k cells 212 MB, 200k cells 518 MB (all 6 markers). Growth is ~2.7 MB per 1000 cells, i.e.
+~0.00045 MB per crosstab value, dominated by the UMAP neighbour graph. The old coefficient
+0.00015 booked 503 MB for the 200k run, below its 518 MB peak, so a run without a manual RAM
+override would have been OOM-killed. New model: 0.0005 MB/value + 200 MB offset (×1.5 by the
+server) → 301 MB (500 cells), 900 MB (200k cells), ~2 GB (584k cells, Tudor's largest R run).
+No code change.
+
 ## 1.1.2 (2026-10-14) — one selected marker crashed the embedding
 
 First prod run of 1.1.1 (Tudor Dimofte's workflow, 60k cells, 6 markers, no `sample_factor`

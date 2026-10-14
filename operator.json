@@ -13,7 +13,7 @@
     "https://github.com/tercen/faust_operator"
   ],
   "communicationProtocol": "grpc",
-  "container": "ghcr.io/tercen/faust_operator:1.1.2",
+  "container": "ghcr.io/tercen/faust_operator:1.1.3",
   "properties": [
     {
       "kind": "DoubleProperty",
