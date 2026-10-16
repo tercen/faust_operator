@@ -1,5 +1,17 @@
 # Status
 
+## 1.2.0 (2026-10-16) — umaprs 0.2.1 → 0.4.0 for the embedding
+
+The embedding (`umap_1`/`umap_2`) now uses umaprs 0.4.0, validated against uwot in the UMAP
+operator's in-depth comparison (umap_operator 2.2.0):
+- uwot's spectral start. 0.2.1 started from a *random* layout above 2,000 cells, which loses the
+  global arrangement and changes with the seed.
+- Exact kNN up to 40 markers, and the eigh pairing fix.
+
+The task log names the start used. FAUST's own output is unchanged: gates, labels and histograms
+are identical on the platform test. Only the embedding coordinates moved, so `test_1_out_1.csv`
+was regenerated from a Studio dev run (exported twice, byte-identical).
+
 ## Repo cleanup (2026-10-14) — fixtures as one archive, R leftovers gone
 
 Tercen's library install (`GitProjectHelper`, reset-pull) imports every file of the repo tree as

@@ -203,6 +203,9 @@ async fn execute(ctx: &ContextBase, mode: Mode) -> Result<()> {
             .random_state(s.seed as u64)
             .threads(s.threads);
         let e = umap.fit_transform(&m);
+        if let Some(note) = umap.init_note() {
+            rep.info(format!("embedding start: {note}"));
+        }
         // rows are in sample order (cells_of concatenated); map back to .ci
         let mut x = vec![f64::NAN; n_cells];
         let mut y = vec![f64::NAN; n_cells];
