@@ -10,7 +10,9 @@ Version 1.x is a **Rust implementation** (`crates/faust`): a port of the R packa
 `RGLab/FAUST` 0.5.5 and `RGLab/scamp` 0.5.0 that the 0.x R operator ran. On the same seed it
 returns the same marker selection, thresholds, per-cell phenotype labels and gates as the R
 operator at `threadNum = 1`; the UMAP coordinates use the same landmark layout but come from
-`umaprs`, so they differ from uwot's. The R code is kept on the `r-legacy` branch.
+`umaprs`, so they differ from uwot's coordinate by coordinate. Since 1.2.0 (umaprs 0.4.0, with
+uwot's spectral start) the maps match uwot's in structure: see umap_operator 2.2.0's validation.
+The R code is kept on the `r-legacy` branch.
 
 ##### Usage
 
