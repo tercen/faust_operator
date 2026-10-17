@@ -72,6 +72,50 @@ pub fn read(ctx: &ContextBase) -> Result<Settings> {
 
 #[cfg(test)]
 mod tests {
+    /// Tercen books `intercept × n_cols^1 × n_rows^0.2 + 1.5 × offset` MB: cells (the column
+    /// table) times a mild growth with markers (the row table). Peak RAM follows cells — the UMAP
+    /// of every cell, the gathered matrix and the per-cell output — far more than values: 8 → 23
+    /// markers on the same 1.42 M cells raised it 19 %. Measured `stats_d_actual_ram_peak` (MB):
+    /// tercen.com 1.1.2 at 6 markers (60k, 75k, 200k cells), Studio 1.2.0 at 8, 23 and 31 markers.
+    /// Peaks are in 10^6 bytes and Tercen books MiB, so the margins here are ~5 % conservative.
+    /// The previous per-value model booked 3.6× the 23-marker run's peak.
+    #[test]
+    fn memory_model_books_measured_peaks_by_cells() {
+        let m: serde_json::Value =
+            serde_json::from_str(include_str!("../memory_model.json")).unwrap();
+        let f = m["features"].as_array().unwrap();
+        assert_eq!(
+            (f[0]["name"].as_str(), f[1]["name"].as_str()),
+            (Some("n_cols"), Some("n_rows"))
+        );
+        let book = |cells: f64, markers: f64| {
+            m["intercept"].as_f64().unwrap()
+                * cells.powf(f[0]["exponent"].as_f64().unwrap())
+                * markers.powf(f[1]["exponent"].as_f64().unwrap())
+                + 1.5 * m["offset"].as_f64().unwrap()
+        };
+        for (cells, markers, peak) in [
+            (60_000.0, 6.0, 170.0),
+            (75_000.0, 6.0, 212.0),
+            (200_000.0, 6.0, 518.0),
+            (1_420_000.0, 8.0, 3_944.0),
+            (1_420_000.0, 23.0, 4_590.0),
+            (1_420_000.0, 31.0, 4_880.0),
+        ] {
+            let b = book(cells, markers);
+            assert!(
+                b >= 1.25 * peak,
+                "{cells} x {markers}: books {b:.0} MB for a {peak} MB peak"
+            );
+            if cells >= 1e6 {
+                assert!(
+                    b <= 2.0 * peak,
+                    "{cells} x {markers}: books {b:.0} MB, over twice the peak"
+                );
+            }
+        }
+    }
+
     use super::*;
     use serde_json::Value;
 

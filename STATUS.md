@@ -44,10 +44,27 @@ Forest alone (`examples/bench_forest.rs`): 50k × 10 in 13 s, 200k × 10 in 23 s
 
 ## Memory model
 
-`memory_model.json`: 0.00015 MB per crosstab value + 1.5 × 200 MB. Points: 1 M values → 62 MB
-(1 thread), 4 M values → 312 MB (2 samples in parallel); the UMAP on all cells adds ~70 B per
-cell × selected markers (umap_operator's measurement). Refit from `stats_d_actual_ram_peak`
-once there are production runs.
+`memory_model.json` (1.2.1): **`0.0023 MB × cells^1 × markers^0.2 + 1.5 × 100 MB`** (features
+`n_cols`, `n_rows`). Tercen's model is one product of features, no sums; the marker term is a mild
+power because peak RAM follows cells: the UMAP of every cell (~2 KB/cell), the gathered matrix and
+the per-cell output dominate, FAUST itself is small (~155 MB for 250k cells × 10 markers in the
+paper-simulation runs, pipeline only).
+
+Measured `stats_d_actual_ram_peak` and bookings (MB):
+
+| run | cells × markers | peak | 1.1.3 model (0.0005/value + 300) | 1.2.1 model |
+|---|---|---|---|---|
+| tercen.com 1.1.2 | 60,000 × 6 | 170 | 480 | 347 |
+| tercen.com 1.1.2 | 75,000 × 6 | 212 | 525 | 397 |
+| tercen.com 1.1.2 | 200,000 × 6 | 518 | 900 | 808 |
+| Studio 1.2.0 (Jamie 20k, type markers) | 1,420,000 × 8 | 3,857 / 3,944 | 5,980 | 5,100 |
+| Studio 1.2.0 (Jamie 20k, state markers) | 1,420,000 × 23 | 4,590 | **16,630** | **6,265** |
+| Studio 1.2.0 (Jamie 20k, all markers; 89 min at 4 CPUs) | 1,420,000 × 31 | 4,880 | **22,310** | **6,641** |
+
+`memory_model_books_measured_peaks_by_cells` pins the points (booking ≥ 1.25× every peak, ≤ 2×
+for the large runs). Peaks are in 10^6 bytes, bookings in MiB (what Tercen books), so the margins are ~5 %
+conservative. Not yet measured: more than 31 markers, more than 4 CPUs (samples run in
+parallel), cell counts between 200k and 1.42 M.
 
 ## Platform test
 
