@@ -76,7 +76,8 @@ mod tests {
     /// table) times a mild growth with markers (the row table). Peak RAM follows cells — the UMAP
     /// of every cell, the gathered matrix and the per-cell output — far more than values: 8 → 23
     /// markers on the same 1.42 M cells raised it 19 %. Measured `stats_d_actual_ram_peak` (MB):
-    /// tercen.com 1.1.2 at 6 markers (60k, 75k, 200k cells), Studio 1.2.0 at 8 and 23 markers.
+    /// tercen.com 1.1.2 at 6 markers (60k, 75k, 200k cells), Studio 1.2.0 at 8, 23 and 31 markers.
+    /// Peaks are in 10^6 bytes and Tercen books MiB, so the margins here are ~5 % conservative.
     /// The previous per-value model booked 3.6× the 23-marker run's peak.
     #[test]
     fn memory_model_books_measured_peaks_by_cells() {
@@ -99,6 +100,7 @@ mod tests {
             (200_000.0, 6.0, 518.0),
             (1_420_000.0, 8.0, 3_944.0),
             (1_420_000.0, 23.0, 4_590.0),
+            (1_420_000.0, 31.0, 4_880.0),
         ] {
             let b = book(cells, markers);
             assert!(

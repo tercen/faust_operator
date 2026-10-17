@@ -59,9 +59,11 @@ Measured `stats_d_actual_ram_peak` and bookings (MB):
 | tercen.com 1.1.2 | 200,000 × 6 | 518 | 900 | 808 |
 | Studio 1.2.0 (Jamie 20k, type markers) | 1,420,000 × 8 | 3,857 / 3,944 | 5,980 | 5,100 |
 | Studio 1.2.0 (Jamie 20k, state markers) | 1,420,000 × 23 | 4,590 | **16,630** | **6,265** |
+| Studio 1.2.0 (Jamie 20k, all markers; 89 min at 4 CPUs) | 1,420,000 × 31 | 4,880 | **22,310** | **6,641** |
 
 `memory_model_books_measured_peaks_by_cells` pins the points (booking ≥ 1.25× every peak, ≤ 2×
-for the large runs). Not yet measured: more than 23 markers, more than 4 CPUs (samples run in
+for the large runs). Peaks are in 10^6 bytes, bookings in MiB (what Tercen books), so the margins are ~5 %
+conservative. Not yet measured: more than 31 markers, more than 4 CPUs (samples run in
 parallel), cell counts between 200k and 1.42 M.
 
 ## Platform test
